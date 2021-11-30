@@ -6,7 +6,7 @@ import './App.css';
 
 const Message = ({ data }) => (<div>{data}</div>);
 
-const App = ({ }) => {
+const App = ({ adminMode = true }) => {
   const text = useSelector(state => state.messageReducer.text);
   const messages = useSelector(state => state.messageReducer.messages);
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ const App = ({ }) => {
   const handleTextChange = (e) => {
     dispatch(handlTextChange(e.target.value));
   };
-
+/*
   return (
     <div className="App">
       <div>
@@ -43,7 +43,35 @@ const App = ({ }) => {
         <button onClick={onSubmit}>Submit</button>
       </div>
     </div>
+  ); */
+  if(adminMode){
+  return(
+    <div>
+        <div className="listingTitle">{listing.title}</div>
+        <div className="listingDescription">{listing.description}</div>
+        <div className="listingType">{listing.type}</div>
+        <div className="listingPrice">{listing.price}</div>
+        <form>
+          <textarea name="textarea" placeholder="test" onChange={e => setMessage(e.target.value)} />
+          {message}
+          <button className="submit" onClick={() => submitInquiry()}></button>
+        </form>
+      </div>
   );
+  }
+  else{
+    return(
+      <div>
+      <div className="listingTitle">{listing.title}</div>
+      <div className="listingDescription">{listing.description}</div>
+      <div className="listingType">{listing.type}</div>
+      <div className="listingPrice">{listing.price}</div>
+      <div className="listingDelete" onClick={() => deleteListing()}>Delete</div>
+      <div className="listingInquiries" onClick={() => viewInquiries()}>View Inquiries</div>
+    </div>
+
+    );
+  }
 };
 
 export default App;

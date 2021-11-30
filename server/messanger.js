@@ -8,6 +8,25 @@ const client = redis.createClient({ host: process.env.REDIS_HOST || 'localhost' 
 const url = process.env.MONGO_HOST || 'mongodb://localhost:27017';
 const mongoClient = new MongoClient(url);
 
+const Schema = mongoose.Schema;
+
+let list = new Schema({
+  title: {
+    type: String
+  },
+  description: {
+    type: String
+  },
+  type: {
+    type: String
+  },
+  price: {
+    type: Number
+  }
+});
+
+module.exports = mongoose.model("list", list);
+
 mongoClient.connect((err) => {
   if (err) console.log(err);
   const db = mongoClient.db('test101');
@@ -31,6 +50,27 @@ mongoClient.connect((err) => {
       })
       .catch((e) => console.log(e));
   });
+
+  app.get('/api/getListings', (req,res) => {
+    db.collection('listings').find({}).toArray()
+    .then((res) => {
+      res.send(res.data);
+    })
+    .catch((e) => console.log(e));
+  });
+
+  app.post('/api/makeListing', (req,res) => {
+    var listingData = {
+      title: req.body.title,
+      description: req.body.description,
+      type: req.body.type,
+      price: req.body.price,
+    }
+  })
+
+  app.send('/api/makeListing', (req,res) => {
+    db.collection('test').insertOne({})
+  })
 
   app.listen(5000);
   // end app logic
