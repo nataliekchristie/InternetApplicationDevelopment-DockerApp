@@ -3,6 +3,8 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 const { MongoClient, ObjectId } = require('mongodb');
+const KafkaProducer = require('/kafka/KafkaProducer.js');
+const producer = new KafkaProducer('createListing');
 const port = 4444;
 
 const dbName = '';
