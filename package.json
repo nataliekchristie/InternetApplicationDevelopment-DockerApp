@@ -8,6 +8,7 @@
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "http-proxy": "^1.17.0",
+    "kafka": "^0.2.3",
     "mongodb": "^3.2.3",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
