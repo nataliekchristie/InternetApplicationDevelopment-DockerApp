@@ -42,3 +42,77 @@
   overflow-y: scroll;
   width: 400px;
 }
+
+.container {
+  display: grid; 
+  grid-template-columns: 0.5fr 2.0fr 0.5fr; 
+  grid-template-rows: 0.3fr 2.2fr 0.3fr; 
+  gap: 0px 0px; 
+  grid-template-areas: 
+    "header header header"
+    "leftsidebar centercontent rightsidebar"
+    "footer footer footer"; 
+}
+.centercontent { 
+  display: flex;
+  grid-area: centercontent;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+ }
+.header { 
+  display: flex;
+  grid-area: header; 
+  height: 100px;
+  justify-content: center;
+}
+.footer { 
+  grid-area: footer;
+  height: 100%;
+  width: 100%;
+}
+.leftsidebar { 
+  grid-area: leftsidebar;
+  height: 100%;
+  width: 150px;
+ }
+
+.rightsidebar { 
+  grid-area: rightsidebar;
+  height: 100%;
+  width: 150px; 
+}
+
+  .makeListing{
+    padding-bottom: 50px;
+  }
+
+  .listingText{
+    padding-top: 20px;
+    padding-bottom: 10px;
+  }
+
+  .listingCreationForm{
+    background-color: #ededed;
+    border-radius: 57px;
+    width: 500px; 
+    padding: 20px;
+  }
+
+  .headerContent{
+    height: 50px;
+    width: 90%;
+    border-bottom: 1px solid #ededed;
+  }
+
+  .leftsidebarContent{
+    width: 100%;
+    height: 100%;
+    border-right: 1px solid #ededed;
+  }
+
+  .rightsidebarContent{
+    width: 100%;
+    height: 100%;
+  }

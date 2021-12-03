@@ -25,7 +25,10 @@ let list = new Schema({
   }
 });
 
-module.exports = mongoose.model("list", list);
+let List = mongoose.model("list", list);
+module.exports = List;
+
+
 
 mongoClient.connect((err) => {
   if (err) console.log(err);

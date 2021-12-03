@@ -92,18 +92,34 @@ const App = ({ adminMode = true }) => {
       </div>
     </div>
   ); */
+
   if(adminMode){
   return(
-    <div>
+    <div className="container">
+      <div className="header">
+        <div className="headerContent">
+
+        </div>
+      </div>
+      <div className="leftsidebar">
+        <div className="leftsidebarContent"></div>
+      </div>
+      <div className="centercontent">
       <div className ="listingCreationForm">
       <form>
-        <textarea id="input-description" onChange={e => setDescription(e.target.value)}></textarea>
-        <textarea id="input-type" onChange={e => setType(e.target.value)}></textarea>
-        <textarea id="input-price" onChange={e => setPrice(e.target.value)}></textarea>
-        <textarea id="input-title" onChange={e => setTitle(e.target.value)}></textarea>
-        <button id="submit" onClick={() => submitListing()}>Submit</button>
+        <div className="makeListing">Make Listing:</div>
+        <div className="listingText">Description:</div>
+        <div><textarea id="input-description" onChange={e => setDescription(e.target.value)}></textarea></div>
+        <div className="listingText">Type:</div>
+        <div><textarea id="input-type" onChange={e => setType(e.target.value)}></textarea></div>
+        <div className="listingText">Price:</div>
+        <div><textarea id="input-price" onChange={e => setPrice(e.target.value)}></textarea></div>
+        <div className="listingText">Title:</div>
+        <div><textarea id="input-title" onChange={e => setTitle(e.target.value)}></textarea></div>
+        <div><button id="submit" onClick={() => submitListing()}>Submit</button></div>
       </form>
-    </div>
+      </div>
+    
       <div className="listings">
         {listings.map(listing => (
         <div className="listing">
@@ -114,11 +130,18 @@ const App = ({ adminMode = true }) => {
         <form>
           <textarea name="textarea" onChange={e => setMessage(e.target.value)} />
           {message}
-          <button className="submit" onClick={() => submitInquiry()}></button>
+          <button className="submit" ></button>
         </form>
         </div>
         ))}
       </div>
+      </div>
+      <div className="rightsidebar">
+        <div className="rightsidebarContent">
+          
+        </div>
+      </div>
+      <div className="footer"></div>
       </div>
   );
   }
@@ -132,7 +155,7 @@ const App = ({ adminMode = true }) => {
       <div className="listingDescription">{listing.description}</div>
       <div className="listingType">{listing.type}</div>
       <div className="listingPrice">{listing.price}</div>
-      <div className="listingDelete" onClick={() => deleteListing()}>Delete</div>
+      <div className="listingDelete" >Delete</div>
       </div>
         ))}
       </div>
