@@ -7,12 +7,17 @@ const KafkaProducer = require('/kafka/KafkaProducer.js');
 const producer = new KafkaProducer('createListing');
 const port = 4444;
 
-const dbName = '';
-const db = client.db(dbName);
-const dbAddress = '';
-const client = new MongoClient(dbAddress);
+
+
+
 
 client.connect((err) => {
+    const dbName = '667fp';
+    const db = client.db(dbName);
+    const dbAddress = 'mongodb://localhost:27017';
+    const inqCollection = db.collection('inquiries');
+    const client = new MongoClient(dbAddress);
+
     if(err){
         console.log('Could not connect to Mongodb');
     }
@@ -29,7 +34,10 @@ client.connect((err) => {
                 }
             ],
         }
+        inquiriesCollection.insertOne(inquiryData);
     });
+
+    
 
     app.listen(port, () => console.log(`Listing on port ${port}`));
 
