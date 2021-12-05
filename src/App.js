@@ -12,13 +12,13 @@ const App = ({ adminMode = true }) => {
   const dispatch = useDispatch();
 
   // used for setting info when making new listing
-  const [title, setTitle] = useState();
-  const [description, setDescription] = useState();
-  const [type, setType] = useState();
-  const [price, setPrice] = useState();
+  const [title, setTitle] = React.useState('');
+  const [description, setDescription] = React.useState('');
+  const [type, setType] = React.useState('');
+  const [price, setPrice] = React.useState('');
   
   // for making messages
-  const [message, setMessage] = useState();
+  const [message, setMessage] = React.useState('');
 
   // used to stream existing listings
   const [listings, setListings] = useState([]);
@@ -42,10 +42,12 @@ const App = ({ adminMode = true }) => {
   }
   
   // submit message saved in state
-/*
-  function submitMessage{
 
-  }*/
+  const submitMessage = () => {
+    console.log('Submitting message');
+
+    setMessage('');
+  }
 
   // uses api function to get listings from mongodb and stores in array
   function getListings(){
@@ -74,7 +76,7 @@ const App = ({ adminMode = true }) => {
   }
 
   const handleTextChange = (e) => {
-    dispatch(handlTextChange(e.target.value));
+    dispatch(handleTextChange(e.target.value));
   };
 /*
   return (
@@ -114,10 +116,19 @@ const App = ({ adminMode = true }) => {
         <form>
           <textarea name="textarea" onChange={e => setMessage(e.target.value)} />
           {message}
-          <button className="submit" onClick={() => submitInquiry()}></button>
+          {/* <button className="submit" onClick={() => submitInquiry()}></button> */}
         </form>
         </div>
         ))}
+      </div>
+      <div className="App">
+        <textarea value={message} onChange={e => setMessage(e.target.value)}></textarea>
+        <div>
+          <button onClick={submitMessage}>Submit Message</button>
+        </div>
+        <div>
+          {messages.map((i) => <div>(i)</div>)}
+        </div>
       </div>
       </div>
   );
@@ -132,7 +143,7 @@ const App = ({ adminMode = true }) => {
       <div className="listingDescription">{listing.description}</div>
       <div className="listingType">{listing.type}</div>
       <div className="listingPrice">{listing.price}</div>
-      <div className="listingDelete" onClick={() => deleteListing()}>Delete</div>
+      {/* <div className="listingDelete" onClick={() => deleteListing()}>Delete</div> */}
       </div>
         ))}
       </div>
