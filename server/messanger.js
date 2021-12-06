@@ -2,14 +2,20 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { MongoClient } = require('mongodb');
 const redis = require('redis');
+
 const client = redis.createClient({ host: process.env.REDIS_HOST || 'localhost' });
+global.TextEncoder = require("util").TextEncoder;
+global.TextDecoder = require("util").TextDecoder;
+//const mongoose  = require('mongoose');
+//const {Schema} = mongoose;
 
 // monogo init
 const url = process.env.MONGO_HOST || 'mongodb://localhost:27017';
 const mongoClient = new MongoClient(url);
 
-const Schema = mongoose.Schema;
+//const Schema = mongoose.Schema;
 
+/*
 let list = new Schema({
   title: {
     type: String
@@ -23,12 +29,10 @@ let list = new Schema({
   price: {
     type: Number
   }
-});
+});*/
 
-let List = mongoose.model("list", list);
-module.exports = List;
-
-
+//let List = mongoose.model("list", list);
+//module.exports = List;
 
 mongoClient.connect((err) => {
   if (err) console.log(err);
@@ -70,12 +74,12 @@ mongoClient.connect((err) => {
       price: req.body.price,
     }
   })
-
+/*
   app.send('/api/makeListing', (req,res) => {
     db.collection('test').insertOne({})
-  })
+  })*/
+
 
   app.listen(5000);
   // end app logic
 });
-

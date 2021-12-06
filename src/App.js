@@ -93,6 +93,7 @@ const App = ({ adminMode = true }) => {
     </div>
   ); */
 
+  
   if(adminMode){
   return(
     <div className="container">
@@ -116,7 +117,9 @@ const App = ({ adminMode = true }) => {
         <div><textarea id="input-price" onChange={e => setPrice(e.target.value)}></textarea></div>
         <div className="listingText">Title:</div>
         <div><textarea id="input-title" onChange={e => setTitle(e.target.value)}></textarea></div>
-        <div><button id="submit" onClick={() => submitListing()}>Submit</button></div>
+        <div>test:</div>
+        <input type="text" value={text} onChange={handleTextChange} />
+        <div><button id="submit" onClick={onSubmit}>Submit</button></div>
       </form>
       </div>
     
@@ -138,7 +141,7 @@ const App = ({ adminMode = true }) => {
       </div>
       <div className="rightsidebar">
         <div className="rightsidebarContent">
-          
+
         </div>
       </div>
       <div className="footer"></div>
