@@ -1,6 +1,8 @@
 body {
   font-family: andale mono, verdana, sans-serif;
   font-size: 15px;
+  overflow: hidden;
+  background: linear-gradient(204deg, rgba(255,255,255,1) 12%, rgba(241,247,247,1) 100%);
 }
 
 .App {
@@ -63,7 +65,7 @@ body {
 .centercontent { 
   display: flex;
   grid-area: centercontent;
-  max-height: 620px;
+  height: 86vh;
   width: 100%;
   justify-content: center;
   text-align: center;
@@ -115,7 +117,7 @@ body {
   }
 
   .headerContent{
-    height: 50px;
+    height: 80%;
     width: 90%;
     border-bottom: 1px solid #ededed;
   }
@@ -133,7 +135,8 @@ body {
   }
 
   .listing {
-    border: 2px solid #ededed;
+    background-color: white;
+    border: 2px solid #cfe0e2;
     border-radius: 50px;
     width: 500px;
     padding: 10px;
@@ -141,7 +144,7 @@ body {
   }
 
   .listingTitle{
-    color: #572973;
+    color: #658b90;
     font-size: 23px;
     margin-bottom: 10px;
   }
@@ -160,7 +163,7 @@ body {
 
   .makeListingBox textarea{
     text-align: center;
-    border: 1 px;
+    border: 1px solid #e6e6e6;
     border-radius: 10px;
     padding: 7px;
   }
