@@ -6,7 +6,8 @@ const { MongoClient, ObjectId } = require('mongodb');
 const KafkaProducer = require('/kafka/KafkaProducer.js');
 const producer = new KafkaProducer('createListing');
 const port = 4444;
-
+const redis = require('redis');
+const redisClient = redis.createClient({host:'redis'});
 
 
 
@@ -35,6 +36,21 @@ client.connect((err) => {
             ],
         }
         inquiriesCollection.insertOne(inquiryData);
+    });
+
+    app.get("/api/viewInquiry", (req, res) => {
+        const inquiryData = {
+            username: req.username,
+            id: req.id,
+            messages: [
+                {
+                    inquirer: req.username,
+                    message: req.body.message
+                }
+            ],
+        }
+        res.send(messages);
+        inquiriesCollection.find(inquiryData).toArray();
     });
 
     

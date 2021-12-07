@@ -6,14 +6,18 @@ const { MongoClient, ObjectId } = require('mongodb');
 const KafkaProducer = require('/kafka/KafkaProducer.js');
 const producer = new KafkaProducer('createListing');
 const port = 5555;
+const redis = require('redis');
+const redisClient = redis.createClient({ host: 'redis' });
 
 producer.connect(() => console.log('Kafka Connected'));
+
+
 client.connect((err) => {
 
     const dbName = '667fp';
     const db = client.db(dbName);
     const dbAddress = 'mongodb://localhost:27017';
-    const inqCollection = db.collection('listings');
+    const listCollection = db.collection('listings');
     const client = new MongoClient(dbAddress);
 
     if(err){
@@ -33,6 +37,17 @@ client.connect((err) => {
             listingData
         });
         
+    });
+
+    app.get("/api/viewListing", (req, res) => {
+        const listingData = {
+            title: req.body.title,
+            description: req.body.description,
+            type: req.body.type,
+            price: req.body.price,
+        }
+        res.send(messages);
+        inquiriesCollection.find(listingData).toArray();
     });
 
     app.listen(port, () => console.log(`Listing on port ${port}`));
