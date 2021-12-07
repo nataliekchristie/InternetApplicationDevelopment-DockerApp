@@ -106,25 +106,31 @@ const App = ({ adminMode = true }) => {
         <div className="leftsidebarContent"></div>
       </div>
       <div className="centercontent">
-      <div className ="listingCreationForm">
-      <form>
-        <div className="makeListing">Make Listing:</div>
-        <div className="listingText">Description:</div>
-        <div><textarea id="input-description" onChange={e => setDescription(e.target.value)}></textarea></div>
-        <div className="listingText">Type:</div>
-        <div><textarea id="input-type" onChange={e => setType(e.target.value)}></textarea></div>
-        <div className="listingText">Price:</div>
-        <div><textarea id="input-price" onChange={e => setPrice(e.target.value)}></textarea></div>
-        <div className="listingText">Title:</div>
-        <div><textarea id="input-title" onChange={e => setTitle(e.target.value)}></textarea></div>
-        <div>test:</div>
-        <input type="text" value={text} onChange={handleTextChange} />
-        <div><button id="submit" onClick={onSubmit}>Submit</button></div>
-      </form>
-      </div>
-    
+     {/* THIS IS AN EXAMPLE LISTING TO FORMATTING */}
       <div className="listings">
-        {listings.map(listing => (
+      <div className="listing">
+        <div className="listingTitle">Listing Title</div>
+        <div className="listingImage"><img src="https://dummyimage.com/200x200/e3e3e3/525252.jpg"></img></div>
+        <div className="listingDescription">Description for listing</div>
+        <div className="listingType">Listing type</div>
+        <div className="listingPrice">$100</div>
+        </div>
+        <div className="listing">
+        <div className="listingTitle">Listing Title</div>
+        <div className="listingImage"><img src="https://dummyimage.com/200x200/e3e3e3/525252.jpg"></img></div>
+        <div className="listingDescription">Description for listing</div>
+        <div className="listingType">Listing type</div>
+        <div className="listingPrice">$100</div>
+        </div>
+        <div className="listing">
+        <div className="listingTitle">Listing Title</div>
+        <div className="listingImage"><img src="https://dummyimage.com/200x200/e3e3e3/525252.jpg"></img></div>
+        <div className="listingDescription">Description for listing</div>
+        <div className="listingType">Listing type</div>
+        <div className="listingPrice">$100</div>
+        </div>
+        {/*
+         {listings.map(listing => (
         <div className="listing">
         <div className="listingTitle">{listing.title}</div>
         <div className="listingDescription">{listing.description}</div>
@@ -136,12 +142,27 @@ const App = ({ adminMode = true }) => {
           <button className="submit" ></button>
         </form>
         </div>
-        ))}
+        ))}*/}
       </div>
       </div>
       <div className="rightsidebar">
         <div className="rightsidebarContent">
-
+        <div className ="listingCreationForm">
+      <form>
+        <div className="makeListing">Make Listing</div>
+        <div className="listingText">Description:</div>
+        <div className="makeListingBox"><textarea id="input-description" onChange={e => setDescription(e.target.value)}></textarea></div>
+        <div className="listingText">Type:</div>
+        <div className="makeListingBox"><textarea id="input-type" onChange={e => setType(e.target.value)}></textarea></div>
+        <div className="listingText">Price:</div>
+        <div className="makeListingBox"><textarea id="input-price" onChange={e => setPrice(e.target.value)}></textarea></div>
+        <div className="listingText">Title:</div>
+        <div className="makeListingBox"><textarea id="input-title" onChange={e => setTitle(e.target.value)}></textarea></div>
+        <div>test:</div>
+        <input type="text" value={text} onChange={handleTextChange} />
+        <div><button className="makeListingSubmit" id="submit" onClick={onSubmit}>GO!</button></div>
+      </form>
+      </div>
         </div>
       </div>
       <div className="footer"></div>
@@ -151,7 +172,16 @@ const App = ({ adminMode = true }) => {
   else{
     return(
       <div>
+        {/* THIS IS EXAMPLE LISTING TO FORMAT*/}
         <div className="listings">
+        <div className="listing">
+      <div className="listingTitle">"Listing Title"</div>
+      <div className="listingDescription">This is a filler description</div>
+      <div className="listingType">Type</div>
+      <div className="listingPrice">Price</div>
+      <div className="listingDelete" >Delete</div>
+      </div>
+          {{/* 
         {listings.map(listing => (
       <div className="listing">
       <div className="listingTitle">{listing.title}</div>
@@ -160,7 +190,7 @@ const App = ({ adminMode = true }) => {
       <div className="listingPrice">{listing.price}</div>
       <div className="listingDelete" >Delete</div>
       </div>
-        ))}
+        ))}*/}}
       </div>
     </div>
 
