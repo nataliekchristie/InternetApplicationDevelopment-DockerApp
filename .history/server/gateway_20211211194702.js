@@ -27,18 +27,17 @@ wsProxy.on('error', (err, req, socket) => {
 const messangerHost = process.env.MESSANGER_HOST || 'http://localhost:5000';
 console.log(`Messanger end proxies to: ${messangerHost}`);
 app.all('/messanger*', (req, res) => {
-  /*
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
-  res.header("Access-Control-Allow-Headers", req.header('access-control-request-headers'));*/
+  res.header("Access-Control-Allow-Headers", req.header('access-control-request-headers'));
   apiProxy.web(req, res, { target: messangerHost });
 });
 
 // gateway to listing api 
-const listingHost = process.env.LISTING_HOST || 'http://localhost:5555';
+const listingHost = process.env.LISTING_HOST || 'http://localhost:3001';
 console.log(`Listing api end proxies to: ${listingHost}`);
 app.all('/listingapi*', (req, res) => {
-  apiProxy.web(req, res, { target: listingHost });
+  apiProxy.web(req, res, { target: messangerHost });
 });
 
 
@@ -57,10 +56,9 @@ appServer.on('upgrade', (req, socket, head) => {
 const fronEndHost = process.env.FRONT_END_HOST || 'http://localhost:3000';
 console.log(`Front end proxies to: ${fronEndHost}`);
 app.all('/*', (req, res) => {
-  /*
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE");
-  res.header("Access-Control-Allow-Headers", req.header('access-control-request-headers'));*/
+  res.header("Access-Control-Allow-Headers", req.header('access-control-request-headers'));
   // for frontend
   apiProxy.web(req, res, { target: fronEndHost });
 });
