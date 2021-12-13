@@ -61,10 +61,7 @@ export const createListing = () => (dispatch, getState) => {
 export const getListings = () => (dispatch) => {
     //update state of listings in listing reducer
  axios.get('/listingapi/getListings')
- .then((response) => dispatch(setListings(response.data)))
- .catch((err) => {
-   console.log(err);
- })
+ .then((response) => dispatch(setListings(response.data)));
   };
 
 

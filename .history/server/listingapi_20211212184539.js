@@ -35,7 +35,7 @@ client.connect((err) => {
             type: req.body.type,
             price: req.body.price,
         }
-        return listCollection.insertOne(listingData)
+        listCollection.insertOne(listingData)
         .then(() => console.log("Listing inserted into db"))
         .catch((e) => console.log(e));
         /*

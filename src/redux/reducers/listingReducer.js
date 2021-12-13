@@ -40,7 +40,7 @@ const initialState = () => ({
       case 'LISTINGS_SET_LISTINGS':
         return {
           ...state,
-          listings: action.payload,
+          listings: listings,
         }
       default:
         return state;

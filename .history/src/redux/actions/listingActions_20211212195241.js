@@ -28,13 +28,6 @@ export const updateTitle = title => {
     };
   };
 
-  export const setListings = (listings) => {
-    return{
-      type: 'LISTINGS_SET_LISTINGS',
-      listings: listings,
-    }
-  }
-
 /*
 export const createListing = ({ description, type, price, title }) => (
     axios.post('/listingapi/createListing', {
@@ -61,10 +54,7 @@ export const createListing = () => (dispatch, getState) => {
 export const getListings = () => (dispatch) => {
     //update state of listings in listing reducer
  axios.get('/listingapi/getListings')
- .then((response) => dispatch(setListings(response.data)))
- .catch((err) => {
-   console.log(err);
- })
+ .then((response) => dispatch({ type: 'LISTINGS_SET_LISTINGS', payload: response.data.items }));
   };
 
 

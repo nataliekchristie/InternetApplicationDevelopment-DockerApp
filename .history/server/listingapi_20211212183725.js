@@ -35,7 +35,7 @@ client.connect((err) => {
             type: req.body.type,
             price: req.body.price,
         }
-        return listCollection.insertOne(listingData)
+        listCollection.insertOne(listingData)
         .then(() => console.log("Listing inserted into db"))
         .catch((e) => console.log(e));
         /*
@@ -47,8 +47,8 @@ client.connect((err) => {
 
     app.get('/listingapi/getListings', (req,res) => {
         listCollection.find({}).toArray()
-        .then((result) => {
-          res.send(result.data);
+        .then((res) => {
+          res.send(res.data);
         })
         .catch((e) => console.log(e));
       });

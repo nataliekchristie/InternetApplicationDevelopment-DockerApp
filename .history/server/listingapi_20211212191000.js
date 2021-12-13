@@ -35,7 +35,12 @@ client.connect((err) => {
             type: req.body.type,
             price: req.body.price,
         }
-        return listCollection.insertOne(listingData)
+        listCollection.insertOne(listingData,function(error,result){
+            if(!error) {
+              console.log("Success :"+result.ops.length+" chapters inserted!");
+            } else {
+              console.log("Some error was encountered!");
+            })
         .then(() => console.log("Listing inserted into db"))
         .catch((e) => console.log(e));
         /*

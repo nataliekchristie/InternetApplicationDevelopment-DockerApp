@@ -75,10 +75,10 @@ const App = ({ adminMode = true }) => {
     try {
       axios
         .get('/listingapi/getListings')
-        .then(response => response.data.forEach(listing => addListing(listing)));
+        .then(response => response.data.forEach(post => addPost(post)));
     }
     catch (err) {
-      console.log(err);
+      console.error(err.message);
     }
 
   }, []);

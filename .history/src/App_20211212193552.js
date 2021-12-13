@@ -61,7 +61,6 @@ const App = ({ adminMode = true }) => {
     });
   }*/
 
-  /*
   // load listings 
   React.useEffect(() => {
     axios.get('/listingapi/getListings')
@@ -69,18 +68,6 @@ const App = ({ adminMode = true }) => {
       .catch((e) => {
         console.log(e);
       });
-  }, []);*/
-
-  React.useEffect(() => {
-    try {
-      axios
-        .get('/listingapi/getListings')
-        .then(response => response.data.forEach(listing => addListing(listing)));
-    }
-    catch (err) {
-      console.log(err);
-    }
-
   }, []);
 
   /*
