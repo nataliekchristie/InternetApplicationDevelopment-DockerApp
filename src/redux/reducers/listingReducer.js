@@ -3,6 +3,7 @@ const initialState = () => ({
     description: '',
     price: '',
     title: '',
+    image: '',
     listings: [],
   });
   
