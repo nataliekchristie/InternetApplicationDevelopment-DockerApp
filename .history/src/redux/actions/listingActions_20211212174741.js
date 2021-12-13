@@ -52,6 +52,6 @@ export const createListing = () => (dispatch, getState) => {
 
 export const submitMessage = () => (dispatch) => {
     //update state of listings in listing reducer
- axios.get('/listingapi/getListings')
+ axios.get('/listingapi/viewListing')
  .then((response) => dispatch({ type: 'LISTINGS_SET_LISTINGS', payload: response.data.items }));
   };

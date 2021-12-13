@@ -85,7 +85,7 @@ const App = ({ adminMode = true }) => {
 
   /*
   const onSubmit = () => {
-    dispatch(createListing());
+    dispatch(submitMessage());
   }*/
 
   // submit listing to createListing action using set parameters on form
@@ -118,7 +118,7 @@ const App = ({ adminMode = true }) => {
 
    
   const onSubmit = () => {
-    dispatch(createListing());
+    dispatch(submitListing());
   }
 
 

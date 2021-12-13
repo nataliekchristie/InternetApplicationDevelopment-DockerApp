@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateMessages, handlTextChange, submitMessage } from './redux/actions/messageActions';
-import { createListing, updateDescription, updatePrice, updateTitle, updateType } from './redux/actions/listingActions';
+import { createListing } from './redux/actions/listingActions';
 import './App.css';
 
 const Message = ({ data }) => (<div>{data}</div>);
@@ -26,8 +26,9 @@ const App = ({ adminMode = true }) => {
   const addListing = newListing=> setListings(state => [...state, newListing]);
 
   // use for when we create listing form 
-  function submitListing(){
-    axios.post('/listingapi/createListing', {
+  function submitListing(e){
+    e.preventDefault();
+    axios.post('/api/makingListing', {
       title: title,
       description: description,
       type: type,
@@ -41,8 +42,6 @@ const App = ({ adminMode = true }) => {
     })
   }
   
-
-
   // submit message saved in state
 /*
   function submitMessage{
@@ -50,27 +49,15 @@ const App = ({ adminMode = true }) => {
   }*/
 
   // uses api function to get listings from mongodb and stores in array
-
-  /*
   function getListings(){
-    axios.get('/listingapi/getListings', (req,res) => {
+    axios.get('/getListings', (req,res) => {
     })
     .then((res) => res.data.forEach(listing => addListing(listing)))
     .catch((err) => {
       console.log(err);
     });
-  }*/
+  }
 
-  // load listings 
-  React.useEffect(() => {
-    axios.get('/listingapi/getListings')
-      .then((res) => res.data.forEach(listing => addListing(listing)))
-      .catch((e) => {
-        console.log(e);
-      });
-  }, []);
-
-  /*
   React.useEffect(() => {
     axios.get('/messanger/getMessages')
       .then((res) => {
@@ -81,51 +68,23 @@ const App = ({ adminMode = true }) => {
       });
       // call listings upon load
       getListings();
-  }, []);*/
+  }, []);
 
   /*
   const onSubmit = () => {
-    dispatch(createListing());
+    dispatch(submitMessage());
   }*/
 
-  // submit listing to createListing action using set parameters on form
-  /*
   const onSubmit = () => {
     dispatch(
       createListing(
-        description,
-        type,
-        price,
-        title,
+        
     ));
-  }*/
-
-  const listingDescription = (e) => {
-    updateDescription((e.target.value));
-  };
-
-  const listingTitle = (e) => {
-    updateTitle((e.target.value));
-  };
-
-  const listingPrice = (e) => {
-    updatePrice((e.target.value));
-  };
-
-  const listingType = (e) => {
-    updateType((e.target.value));
-  };
-
-   
-  const onSubmit = () => {
-    dispatch(createListing());
   }
 
-
-  /*
   const handleTextChange = (e) => {
     dispatch(handlTextChange(e.target.value));
-  };*/
+  };
 /*
   return (
     <div className="App">
@@ -156,7 +115,7 @@ const App = ({ adminMode = true }) => {
         <div className="leftsidebarContent"></div>
       </div>
       <div className="centercontent">
-     {/* THIS IS AN EXAMPLE LISTING TO FORMATTING CSS */}
+     {/* THIS IS AN EXAMPLE LISTING TO FORMATTING */}
       <div className="listings">
       <div className="listing">
         <div className="listingTitle">Listing Title</div>
@@ -201,13 +160,15 @@ const App = ({ adminMode = true }) => {
       <form>
         <div className="makeListing">Make Listing</div>
         <div className="listingText">Description:</div>
-        <div className="makeListingBox"><textarea id="input-description" onChange={listingDescription}></textarea></div>
+        <div className="makeListingBox"><textarea id="input-description" onChange={e => setDescription(e.target.value)}></textarea></div>
         <div className="listingText">Type:</div>
-        <div className="makeListingBox"><textarea id="input-type" onChange={listingType}></textarea></div>
+        <div className="makeListingBox"><textarea id="input-type" onChange={e => setType(e.target.value)}></textarea></div>
         <div className="listingText">Price:</div>
-        <div className="makeListingBox"><textarea id="input-price" onChange={listingPrice}></textarea></div>
+        <div className="makeListingBox"><textarea id="input-price" onChange={e => setPrice(e.target.value)}></textarea></div>
         <div className="listingText">Title:</div>
-        <div className="makeListingBox"><textarea id="input-title" onChange={listingTitle}></textarea></div>
+        <div className="makeListingBox"><textarea id="input-title" onChange={e => setTitle(e.target.value)}></textarea></div>
+        <div>test:</div>
+        <input type="text" value={text} onChange={handleTextChange} />
         <div><button className="makeListingSubmit" id="submit" onClick={onSubmit}>GO!</button></div>
       </form>
       </div>

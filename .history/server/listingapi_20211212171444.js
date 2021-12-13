@@ -6,8 +6,8 @@ const { MongoClient, ObjectId } = require('mongodb');
 //const KafkaProducer = require('./kafka/KafkaProducer.js');
 //const producer = new KafkaProducer('createListing');
 const port = 5000;
-//const redis = require('redis');
-//const redisClient = redis.createClient({ host: process.env.REDIS_HOST || 'localhost' });
+const redis = require('redis');
+const redisClient = redis.createClient({ host: process.env.REDIS_HOST || 'localhost' });
 
 //producer.connect(() => console.log('Kafka Connected'));
 
@@ -42,14 +42,6 @@ client.connect((err) => {
         });*/
         
     });
-
-    app.get('/listingapi/getListings', (req,res) => {
-        listCollection.find({}).toArray()
-        .then((res) => {
-          res.send(res.data);
-        })
-        .catch((e) => console.log(e));
-      });
 
     app.get("/listingapi/viewListing", (req, res) => {
         const listingData = {

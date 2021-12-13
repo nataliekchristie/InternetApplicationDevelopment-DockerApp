@@ -35,7 +35,7 @@ wsProxy.on('error', (err, req, socket) => {
 // }); 
 
 // gateway to listing api 
-const listingHost = process.env.LISTINGAPI_HOST || 'http://localhost:5000';
+const listingHost = 'http://localhost:5000';
 console.log(`Listing api end proxies to: ${listingHost}`);
 app.all('/listingapi*', (req, res) => {
   apiProxy.web(req, res, { target: listingHost });

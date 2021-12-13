@@ -76,7 +76,7 @@ mongoClient.connect((err) => {
   });
 
   export const submitListing = () => (dispatch, getState) => {
-    axios.post('/listingapi/createListing', { 
+    axios.post('/messanger/postMessage', { 
       type: getState().listingReducer.type,
       description: getState().listingReducer.description, 
       price: getState().listingReducer.price,

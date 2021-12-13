@@ -43,7 +43,7 @@ client.connect((err) => {
         
     });
 
-    app.get('/listingapi/getListings', (req,res) => {
+    app.get('/api/getListings', (req,res) => {
         listCollection.find({}).toArray()
         .then((res) => {
           res.send(res.data);

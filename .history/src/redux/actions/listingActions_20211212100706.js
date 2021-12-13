@@ -28,7 +28,7 @@ export const updateTitle = title => {
     };
   };
 
-/*
+
 export const createListing = ({ description, type, price, title }) => (
     axios.post('/listingapi/createListing', {
         description: description,
@@ -36,19 +36,7 @@ export const createListing = ({ description, type, price, title }) => (
         price: price,
         title: title
     })
-);*/
-
-export const createListing = () => (dispatch, getState) => {
-  axios.post('/listingapi/createListing', { 
-    type: getState().messageReducer.type,
-    description: getState().messageReducer.description,
-    title: getState().messageReducer.title,
-    price: getState().messageReducer.price  })
-    .then(() => { 
-      console.log("Success");
-    })
-    .catch(e => console.log(e));
-};
+);
 
 export const submitMessage = () => (dispatch) => {
     //update state of listings in listing reducer

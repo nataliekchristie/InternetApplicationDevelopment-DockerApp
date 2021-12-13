@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateMessages, handlTextChange, submitMessage } from './redux/actions/messageActions';
-import { createListing, updateDescription, updatePrice, updateTitle, updateType } from './redux/actions/listingActions';
+import { submitListing, createListing, updateDescription, updatePrice, updateTitle, updateType } from './redux/actions/listingActions';
 import './App.css';
 
 const Message = ({ data }) => (<div>{data}</div>);
@@ -85,7 +85,7 @@ const App = ({ adminMode = true }) => {
 
   /*
   const onSubmit = () => {
-    dispatch(createListing());
+    dispatch(submitMessage());
   }*/
 
   // submit listing to createListing action using set parameters on form
@@ -118,7 +118,7 @@ const App = ({ adminMode = true }) => {
 
    
   const onSubmit = () => {
-    dispatch(createListing());
+    dispatch(submitListing());
   }
 
 

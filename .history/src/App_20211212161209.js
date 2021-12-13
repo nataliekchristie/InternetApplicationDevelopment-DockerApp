@@ -85,7 +85,7 @@ const App = ({ adminMode = true }) => {
 
   /*
   const onSubmit = () => {
-    dispatch(createListing());
+    dispatch(submitMessage());
   }*/
 
   // submit listing to createListing action using set parameters on form
@@ -118,7 +118,7 @@ const App = ({ adminMode = true }) => {
 
    
   const onSubmit = () => {
-    dispatch(createListing());
+    dispatch(submitListing());
   }
 
 
@@ -201,13 +201,13 @@ const App = ({ adminMode = true }) => {
       <form>
         <div className="makeListing">Make Listing</div>
         <div className="listingText">Description:</div>
-        <div className="makeListingBox"><textarea id="input-description" onChange={listingDescription}></textarea></div>
+        <div className="makeListingBox"><textarea id="input-description" onChange={e => listingDescription(e.target.value)}></textarea></div>
         <div className="listingText">Type:</div>
-        <div className="makeListingBox"><textarea id="input-type" onChange={listingType}></textarea></div>
+        <div className="makeListingBox"><textarea id="input-type" onChange={e => listingType(e.target.value)}></textarea></div>
         <div className="listingText">Price:</div>
-        <div className="makeListingBox"><textarea id="input-price" onChange={listingPrice}></textarea></div>
+        <div className="makeListingBox"><textarea id="input-price" onChange={e => listingPrice(e.target.value)}></textarea></div>
         <div className="listingText">Title:</div>
-        <div className="makeListingBox"><textarea id="input-title" onChange={listingTitle}></textarea></div>
+        <div className="makeListingBox"><textarea id="input-title" onChange={e => listingTitle(e.target.value)}></textarea></div>
         <div><button className="makeListingSubmit" id="submit" onClick={onSubmit}>GO!</button></div>
       </form>
       </div>

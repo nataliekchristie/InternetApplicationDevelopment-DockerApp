@@ -28,7 +28,7 @@ export const updateTitle = title => {
     };
   };
 
-/*
+
 export const createListing = ({ description, type, price, title }) => (
     axios.post('/listingapi/createListing', {
         description: description,
@@ -36,9 +36,9 @@ export const createListing = ({ description, type, price, title }) => (
         price: price,
         title: title
     })
-);*/
+);
 
-export const createListing = () => (dispatch, getState) => {
+export const submitListing = () => (dispatch, getState) => {
   axios.post('/listingapi/createListing', { 
     type: getState().messageReducer.type,
     description: getState().messageReducer.description,

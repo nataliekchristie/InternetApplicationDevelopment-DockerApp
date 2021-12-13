@@ -7,6 +7,6 @@ COPY ./package-lock.json /main
 
 RUN npm install
 
-EXPOSE 5555
+EXPOSE 5000
 
 CMD ["node", "listingapi.js"]

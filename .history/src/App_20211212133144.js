@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateMessages, handlTextChange, submitMessage } from './redux/actions/messageActions';
-import { createListing, updateDescription, updatePrice, updateTitle, updateType } from './redux/actions/listingActions';
+import { createListing } from './redux/actions/listingActions';
 import './App.css';
 
 const Message = ({ data }) => (<div>{data}</div>);
@@ -27,7 +27,7 @@ const App = ({ adminMode = true }) => {
 
   // use for when we create listing form 
   function submitListing(){
-    axios.post('/listingapi/createListing', {
+    axios.post('/listingapi/makingListing', {
       title: title,
       description: description,
       type: type,
@@ -41,8 +41,6 @@ const App = ({ adminMode = true }) => {
     })
   }
   
-
-
   // submit message saved in state
 /*
   function submitMessage{
@@ -85,11 +83,10 @@ const App = ({ adminMode = true }) => {
 
   /*
   const onSubmit = () => {
-    dispatch(createListing());
+    dispatch(submitMessage());
   }*/
 
   // submit listing to createListing action using set parameters on form
-  /*
   const onSubmit = () => {
     dispatch(
       createListing(
@@ -98,29 +95,7 @@ const App = ({ adminMode = true }) => {
         price,
         title,
     ));
-  }*/
-
-  const listingDescription = (e) => {
-    updateDescription((e.target.value));
-  };
-
-  const listingTitle = (e) => {
-    updateTitle((e.target.value));
-  };
-
-  const listingPrice = (e) => {
-    updatePrice((e.target.value));
-  };
-
-  const listingType = (e) => {
-    updateType((e.target.value));
-  };
-
-   
-  const onSubmit = () => {
-    dispatch(createListing());
   }
-
 
   /*
   const handleTextChange = (e) => {
@@ -201,13 +176,13 @@ const App = ({ adminMode = true }) => {
       <form>
         <div className="makeListing">Make Listing</div>
         <div className="listingText">Description:</div>
-        <div className="makeListingBox"><textarea id="input-description" onChange={listingDescription}></textarea></div>
+        <div className="makeListingBox"><textarea id="input-description" onChange={e => setDescription(e.target.value)}></textarea></div>
         <div className="listingText">Type:</div>
-        <div className="makeListingBox"><textarea id="input-type" onChange={listingType}></textarea></div>
+        <div className="makeListingBox"><textarea id="input-type" onChange={e => setType(e.target.value)}></textarea></div>
         <div className="listingText">Price:</div>
-        <div className="makeListingBox"><textarea id="input-price" onChange={listingPrice}></textarea></div>
+        <div className="makeListingBox"><textarea id="input-price" onChange={e => setPrice(e.target.value)}></textarea></div>
         <div className="listingText">Title:</div>
-        <div className="makeListingBox"><textarea id="input-title" onChange={listingTitle}></textarea></div>
+        <div className="makeListingBox"><textarea id="input-title" onChange={e => setTitle(e.target.value)}></textarea></div>
         <div><button className="makeListingSubmit" id="submit" onClick={onSubmit}>GO!</button></div>
       </form>
       </div>

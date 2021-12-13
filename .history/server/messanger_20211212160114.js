@@ -73,20 +73,7 @@ mongoClient.connect((err) => {
       type: req.body.type,
       price: req.body.price,
     }
-  });
-
-  export const submitListing = () => (dispatch, getState) => {
-    axios.post('/listingapi/createListing', { 
-      type: getState().listingReducer.type,
-      description: getState().listingReducer.description, 
-      price: getState().listingReducer.price,
-      title: getState().listingReducer.title   })
-      .then(() => { 
-        console.log("Success");
-      })
-      .catch(e => console.log(e));
-    dispatch(handlTextChange(''));
-  };
+  })
 /*
   app.send('/api/makeListing', (req,res) => {
     db.collection('test').insertOne({})

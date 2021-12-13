@@ -25,7 +25,7 @@ services:
       - webnet
     environment:
       - FRONT_END_HOST=http://frontend:3000
-      - LISTINGAPI_HOST=http://listingapi:5000
+      - MESSANGER_HOST=http://messanger:5000
       - WEBSOCKET_HOST=http://websocket:6000/websocket
   frontend:
     image : nataliekchristie/react-demo
@@ -52,7 +52,7 @@ services:
     environment:
       - REDIS_HOST=redis
   listingapi:
-    image : nataliekchristie/listingapi
+    image : nataliekchristie/listings
     depends_on:
       - redis
       - mongodb
