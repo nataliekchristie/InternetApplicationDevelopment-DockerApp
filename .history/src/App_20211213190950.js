@@ -4,25 +4,23 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateMessages, handlTextChange, submitMessage } from './redux/actions/messageActions';
 import { createListing, updateDescription, updatePrice, updateTitle, updateType } from './redux/actions/listingActions';
 import './App.css';
-import FormData from 'form-data'
 
 const Message = ({ data }) => (<div>{data}</div>);
 
 const App = ({ adminMode = true }) => {
-  const text = useSelector(globalState => globalState.messageReducer.text);
-  const messages = useSelector(globalState => globalState.messageReducer.messages);
-  // const listtitle = useSelector(globalState => globalState.listingReducer.title);
-  // const listdescription = useSelector(globalState => globalState.listingReducer.description);
-  // const listprice = useSelector(globalState => globalState.listingReducer.price);
-  // const listtype = useSelector(globalState => globalState.listingReducer.type);
+  const text = useSelector(state => state.messageReducer.text);
+  // const messages = useSelector(state => state.messageReducer.messages);
+  // const listtitle = useSelector(state => state.listingReducer.title);
+  // const listdescription = useSelector(state => state.listingReducer.description);
+  // const listprice = useSelector(state => state.listingReducer.price);
+  // const listtype = useSelector(state => state.listingReducer.type);
   const dispatch = useDispatch();
 
   // used for setting info when making new listing
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [type, setType] = useState('');
-  const [price, setPrice] = useState('');
-  const [image, setImage] = useState();
+  const [title, setTitle] = useState();
+  const [description, setDescription] = useState();
+  const [type, setType] = useState();
+  const [price, setPrice] = useState();
   
   // for making messages
   const [message, setMessage] = useState();
@@ -30,6 +28,31 @@ const App = ({ adminMode = true }) => {
   // used to stream existing listings
   const [listings, setListings] = useState([]);
   const addListing = newListing => setListings(state => [...state, newListing]);
+
+  // use for when we create listing form 
+  
+  // function submitListing(){
+  //   axios.post('/listingapi/createListing', {
+  //     title: title,
+  //     description: description,
+  //     type: type,
+  //     price: price,
+  //   })
+  //   .then( res => {
+  //     console.log("Listing made")
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   })
+  // }
+  
+
+
+  // submit message saved in state
+/*
+  function submitMessage{
+
+  }*/
 
   // uses api function to get listings from mongodb and stores in array
 
@@ -65,58 +88,55 @@ const App = ({ adminMode = true }) => {
 
   }, []);
 
-
-const createListing = () => {
-    console.log("reached createListing action");
-    axios.post('/listingapi/createListing', { 
-      type: type,
-      description: description,
-      title: title,
-      price: price,  })
-      .then(() => { 
-        console.log("Success");
+  /*
+  React.useEffect(() => {
+    axios.get('/messanger/getMessages')
+      .then((res) => {
+        dispatch(updateMessages(res.data));
       })
-      .catch((e) => console.log(e));
-  };
+      .catch((e) => {
+        console.log(e);
+      });
+      // call listings upon load
+      getListings();
+  }, []);*/
 
-  // const createListing = () => {
-//   const postData = new FormData();
-//   let file = image.files[0];
-//   postData.append('image',file,file.name);
-//   postData.append('description',description);
-//   postData.append('type',type);
-//   postData.append('title',title);
-//   postData.append('price',price);
-//   axios.post('/listingapi/createListing', postData)
-//     .then(() => { 
-//       console.log("Listing successfully made");
-//     })
-//     .catch(e => console.log(e));
-// };
+  /*
+  const onSubmit = () => {
+    dispatch(createListing());
+  }*/
+
+  // submit listing to createListing action using set parameters on form
+  /*
+  const onSubmit = () => {
+    dispatch(
+      createListing(
+        description,
+        type,
+        price,
+        title,
+    ));
+  }*/
 
   const listingDescription = (e) => {
-    setDescription(e.target.value);
     dispatch(updateDescription((e.target.value)));
     console.log("description updated");
    // console.log(listdescription);
   };
 
   const listingTitle = (e) => {
-    setTitle(e.target.value);
     dispatch(updateTitle((e.target.value)));
     console.log("title updated");
    //console.log(listtitle);
   };
 
   const listingPrice = (e) => {
-    setPrice(e.target.value);
     dispatch(updatePrice((e.target.value)));
     console.log("price updated");
   //  console.log(listprice);
   };
 
   const listingType = (e) => {
-    setType(e.target.value);
     dispatch(updateType((e.target.value)));
     console.log("type updated");
   //   console.log(listtype);
@@ -124,9 +144,7 @@ const createListing = () => {
 
    
   const onSubmit = () => {
-    console.log("reached submit");
-   // dispatch(createListing());
-   createListing();
+    dispatch(createListing());
     console.log("listing info submitted");
   }
 
@@ -217,7 +235,6 @@ const createListing = () => {
         <div className="makeListingBox"><textarea id="input-price" onChange={listingPrice}></textarea></div>
         <div className="listingText">Title:</div>
         <div className="makeListingBox"><textarea id="input-title" onChange={listingTitle}></textarea></div>
-        <input id="file-input" class="file-input" type="file" accept="image/gif, image/jpeg, image/png" onChange = {e => setImage(e)}/>
         <div><button className="makeListingSubmit" id="submit" onClick={onSubmit}>GO!</button></div>
       </form>
       </div>

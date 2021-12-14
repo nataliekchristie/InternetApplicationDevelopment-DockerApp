@@ -1,11 +1,11 @@
-const INITIAL_STATE = {
-    type: "",
-    description: "",
-    price:  "",
-    title: "",
-    image: "",
+const initialState = () => ({
+    type: '',
+    description: '',
+    price: '',
+    title: '',
+    image: '',
     listings: [],
-  };
+  });
   
   const listingReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
@@ -14,35 +14,35 @@ const INITIAL_STATE = {
         return {
           ...state,
           title: action.title,
-        };
+        }
   
       //state for description of the product
       case 'LISTINGS_SET_DESCRIPTION':
         return {
           ...state,
           description: action.description,
-        };
+        }
   
       //state for price of the product
       case 'LISTINGS_SET_PRICE':
         return {
           ...state,
           price: action.price,
-        };
+        }
   
       //state for tyoe of product
       case 'LISTINGS_SET_TYPE':
         return {
           ...state,
-          type: action.type,
-        };
+          type: action.listtype,
+        }
   
       //state for all of the lsitings
       case 'LISTINGS_SET_LISTINGS':
         return {
           ...state,
           listings: listings,
-        };
+        }
       default:
         return state;
     }

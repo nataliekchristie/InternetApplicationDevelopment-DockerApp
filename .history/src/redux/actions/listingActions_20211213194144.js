@@ -22,11 +22,11 @@ export const updateTitle = (title) => {
     };
   };
   
-  export const updateType = (type) => {
+  export const updateType = (listtype) => {
     console.log("reached updateType");
     return {
       type: 'LISTINGS_SET_TYPE',
-      type,
+      listtype,
     };
   };
 

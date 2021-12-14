@@ -1,32 +1,32 @@
 import axios from 'axios';
 import FormData from 'form-data'
 
-export const updateTitle = (title) => {
+export const updateTitle = title => {
     return {
       type: 'LISTINGS_SET_TITLE',
       title,
     };
   };
   
-  export const updateDescription = (description) => {
+  export const updateDescription = description => {
     return {
       type: 'LISTINGS_SET_DESCRIPTION',
       description,
     };
   };
   
-  export const updatePrice = (price) => {
+  export const updatePrice = price => {
     return {
       type: 'LISTINGS_SET_PRICE',
       price,
     };
   };
   
-  export const updateType = (type) => {
+  export const updateType = listtype => {
     console.log("reached updateType");
     return {
       type: 'LISTINGS_SET_TYPE',
-      type,
+      listtype,
     };
   };
 

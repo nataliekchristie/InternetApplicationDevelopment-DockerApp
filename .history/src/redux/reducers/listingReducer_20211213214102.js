@@ -1,11 +1,11 @@
-const INITIAL_STATE = {
+const INITIAL_STATE = () => ({
     type: "",
     description: "",
     price:  "",
     title: "",
     image: "",
     listings: [],
-  };
+  });
   
   const listingReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
