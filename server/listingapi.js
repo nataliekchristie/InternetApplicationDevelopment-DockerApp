@@ -40,6 +40,18 @@ client.connect((err) => {
 
     console.log('Connected to Mongodb');
 
+    app.get("/login/authentication", (req, res) => {
+        if(userCollection.findOne({
+            username: req.body.username
+        })) {
+            
+            console.log("User exists, logging in...");
+            
+        } else if(err){
+            console.log(err);
+        }
+    });
+
     // app.post("/listingapi/createListing", upload.single('image'), (req, res) => {
     //    // let filename = path.parse(req.image.filename).name;
     //     let filename = req.image.filename;
