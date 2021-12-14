@@ -1,4 +1,5 @@
 import axios from 'axios';
+import FormData from 'form-data'
 
 export const updateTitle = title => {
     return {
@@ -45,17 +46,33 @@ export const createListing = ({ description, type, price, title }) => (
     })
 );*/
 
+
+// export const createListing = () => (dispatch, getState) => {
+//   axios.post('/listingapi/createListing', { 
+//     type: getState().messageReducer.type,
+//     description: getState().messageReducer.description,
+//     title: getState().messageReducer.title,
+//     price: getState().messageReducer.price  })
+//     .then(() => { 
+//       console.log("Success");
+//     })
+//     .catch(e => console.log(e));
+// };
+
 export const createListing = () => (dispatch, getState) => {
-  axios.post('/listingapi/createListing', { 
-    type: getState().messageReducer.type,
-    description: getState().messageReducer.description,
-    title: getState().messageReducer.title,
-    price: getState().messageReducer.price  })
+  const postData = new FormData();
+  postData.append('image',messageReducer.image);
+  postData.append('description',messageReducer.description);
+  postData.append('type',messageReducer.type);
+  postData.append('title',messageReducer.title);
+  postData.append('price',messageReducer.price);
+  axios.post('/listingapi/createListing', postData)
     .then(() => { 
       console.log("Success");
     })
     .catch(e => console.log(e));
 };
+
 
 
 export const getListings = () => (dispatch) => {
