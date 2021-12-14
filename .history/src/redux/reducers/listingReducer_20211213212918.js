@@ -1,9 +1,9 @@
 const INITIAL_STATE = {
-    type: "",
-    description: "",
-    price:  "",
-    title: "",
-    image: "",
+    type: 'hi',
+    description: 'hi',
+    price: 'hi',
+    title: 'hi',
+    image: 'hi',
     listings: [],
   };
   

@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateMessages, handlTextChange, submitMessage } from './redux/actions/messageActions';
 import { createListing, updateDescription, updatePrice, updateTitle, updateType } from './redux/actions/listingActions';
 import './App.css';
-import FormData from 'form-data'
 
 const Message = ({ data }) => (<div>{data}</div>);
 
@@ -30,6 +29,31 @@ const App = ({ adminMode = true }) => {
   // used to stream existing listings
   const [listings, setListings] = useState([]);
   const addListing = newListing => setListings(state => [...state, newListing]);
+
+  // use for when we create listing form 
+  
+  // function submitListing(){
+  //   axios.post('/listingapi/createListing', {
+  //     title: title,
+  //     description: description,
+  //     type: type,
+  //     price: price,
+  //   })
+  //   .then( res => {
+  //     console.log("Listing made")
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   })
+  // }
+  
+
+
+  // submit message saved in state
+/*
+  function submitMessage{
+
+  }*/
 
   // uses api function to get listings from mongodb and stores in array
 
@@ -65,6 +89,35 @@ const App = ({ adminMode = true }) => {
 
   }, []);
 
+  /*
+  React.useEffect(() => {
+    axios.get('/messanger/getMessages')
+      .then((res) => {
+        dispatch(updateMessages(res.data));
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+      // call listings upon load
+      getListings();
+  }, []);*/
+
+  /*
+  const onSubmit = () => {
+    dispatch(createListing());
+  }*/
+
+  // submit listing to createListing action using set parameters on form
+  /*
+  const onSubmit = () => {
+    dispatch(
+      createListing(
+        description,
+        type,
+        price,
+        title,
+    ));
+  }*/
 
 const createListing = () => {
     console.log("reached createListing action");
@@ -79,7 +132,7 @@ const createListing = () => {
       .catch((e) => console.log(e));
   };
 
-  // const createListing = () => {
+  // const createListing = () => (dispatch, getState) => {
 //   const postData = new FormData();
 //   let file = image.files[0];
 //   postData.append('image',file,file.name);
@@ -89,7 +142,7 @@ const createListing = () => {
 //   postData.append('price',price);
 //   axios.post('/listingapi/createListing', postData)
 //     .then(() => { 
-//       console.log("Listing successfully made");
+//       console.log("Success");
 //     })
 //     .catch(e => console.log(e));
 // };

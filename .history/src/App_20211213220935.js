@@ -79,7 +79,7 @@ const createListing = () => {
       .catch((e) => console.log(e));
   };
 
-  // const createListing = () => {
+  // const createListing = () => (dispatch, getState) => {
 //   const postData = new FormData();
 //   let file = image.files[0];
 //   postData.append('image',file,file.name);
@@ -89,7 +89,7 @@ const createListing = () => {
 //   postData.append('price',price);
 //   axios.post('/listingapi/createListing', postData)
 //     .then(() => { 
-//       console.log("Listing successfully made");
+//       console.log("Success");
 //     })
 //     .catch(e => console.log(e));
 // };
