@@ -16,19 +16,22 @@ const rootReducer = combineReducers({
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
-const webSocket = new WebSocket('ws://' + window.location.host.split(':')[0] + (window.location.port && `:${window.location.port}`) + '/websocket');
+// const webSocket = new WebSocket('ws://' + window.location.host.split(':')[0] + (window.location.port && `:${window.location.port}`) + '/websocket');
+const webSocket = new WebSocket('ws://localhost:5000');
 
+webSocket.onopen = () => {
+  console.log('WebSocket opened!');
+};
 
 webSocket.onmessage = (message) => {
-  console.log(message)
-
+  console.log(message);
   console.log('Got a message from server! ' + message.data);
   const currentMessages = store.getState().messageReducer.messages;
   console.log(currentMessages);
   const newMessages = currentMessages.slice(0);
   newMessages.push(message.data); // new incoming message
   store.dispatch({
-    type: 'SET_MESSAGES',
+    type: 'UPDATE_MESSAGES',
     messages: newMessages,
   });
   // store.dispatch(insertMessage(message.data));
