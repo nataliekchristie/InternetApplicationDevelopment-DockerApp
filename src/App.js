@@ -25,7 +25,7 @@ const App = ({ adminMode = true }) => {
   const [image, setImage] = useState();
   
   // for making messages
-  const [message, setMessage] = useState();
+  const [message, setMessage] = React.useState('');
 
   // used to stream existing listings
   const [listings, setListings] = useState([]);
@@ -173,6 +173,10 @@ const createListing = () => {
         <div className="listingDescription">Description for listing</div>
         <div className="listingType">Listing type</div>
         <div className="listingPrice">$100</div>
+        {/* inquiry */}
+        <div className="inquiry"><textarea value={message} onChange={e => setMessage(e.target.value)}></textarea></div>
+        <div><button onClick={submitMessage}>Submit Inquiry</button></div>
+        <div>{messages.map((i) => <div>(i)</div>)}</div>
         </div>
         <div className="listing">
         <div className="listingTitle">Listing Title</div>
@@ -180,6 +184,10 @@ const createListing = () => {
         <div className="listingDescription">Description for listing</div>
         <div className="listingType">Listing type</div>
         <div className="listingPrice">$100</div>
+
+        <div className="inquiry"><textarea value={message} onChange={e => setMessage(e.target.value)}></textarea></div>
+        <div><button onClick={submitMessage}>Submit Inquiry</button></div>
+        <div>{messages.map((i) => <div>(i)</div>)}</div>
         </div>
         <div className="listing">
         <div className="listingTitle">Listing Title</div>
@@ -187,6 +195,10 @@ const createListing = () => {
         <div className="listingDescription">Description for listing</div>
         <div className="listingType">Listing type</div>
         <div className="listingPrice">$100</div>
+
+        <div className="inquiry"><textarea value={message} onChange={e => setMessage(e.target.value)}></textarea></div>
+        <div><button onClick={submitMessage}>Submit Inquiry</button></div>
+        <div>{messages.map((i) => <div>(i)</div>)}</div>
         </div>
         {/*
          {listings.map(listing => (
@@ -203,6 +215,17 @@ const createListing = () => {
         </div>
         ))}*/}
       </div>
+
+      {/* INQUIRY INPUT TEXTBOX */}
+      {/* <div className="App">
+        <textarea value={message} onChange={e => setMessage(e.target.value)}></textarea>
+        <div>
+          <button onClick={submitMessage}>Submit Message</button>
+        </div>
+        <div>
+          {messages.map((i) => <div>(i)</div>)}
+        </div>
+      </div> */}
       </div>
       <div className="rightsidebar">
         <div className="rightsidebarContent">
@@ -217,7 +240,8 @@ const createListing = () => {
         <div className="makeListingBox"><textarea id="input-price" onChange={listingPrice}></textarea></div>
         <div className="listingText">Title:</div>
         <div className="makeListingBox"><textarea id="input-title" onChange={listingTitle}></textarea></div>
-        <input id="file-input" class="file-input" type="file" accept="image/gif, image/jpeg, image/png" onChange = {e => setImage(e)}/>
+        <input id="file-input" class="file-input" type="file" accept="image/gif, image/jpeg, image/png" onChange = {e => setImage(e)}/>        
+     
         <div><button className="makeListingSubmit" id="submit" onClick={onSubmit}>GO!</button></div>
       </form>
       </div>
