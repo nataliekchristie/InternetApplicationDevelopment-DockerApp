@@ -6,8 +6,6 @@ const { MongoClient, ObjectId } = require('mongodb');
 //const KafkaProducer = require('./kafka/KafkaProducer.js');
 //const producer = new KafkaProducer('myProducer');
 const port = 5000;
-//const redis = require('redis');
-//const redisClient = redis.createClient({ host: process.env.REDIS_HOST || 'localhost' });
 // const path = require("path");
 // const multer = require("multer");
 // const fs = require('fs');
@@ -20,7 +18,7 @@ const port = 5000;
 // });
 // const upload = multer({storage: storageListing});
 
-//producer.connect(() => console.log('Kafka Connected'));
+producer.connect(() => console.log('Kafka Connected'));
 
     const dbAddress = process.env.MONGO_HOST || 'mongodb://localhost:27017';
     const client = new MongoClient(dbAddress);
