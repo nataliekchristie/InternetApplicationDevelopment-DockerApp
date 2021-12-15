@@ -4,10 +4,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 const { MongoClient, ObjectId } = require('mongodb');
 const KafkaProducer = require('/kafka/KafkaProducer.js');
-const producer = new KafkaProducer('createListing');
+const producer = new KafkaProducer('createInquiry');
 const port = 4444;
 const redis = require('redis');
-const redisClient = redis.createClient({host:'redis'});
+const redisClient = redis.createClient();
 
 
 
@@ -24,7 +24,7 @@ client.connect((err) => {
     }
     console.log('Connected to Mongodb');
 
-    app.post("/api/createListing", (req, res) => {
+    app.post("/api/createInquiry", (req, res) => {
         const inquiryData = {
             username: res.username,
             id: res.id,
@@ -35,7 +35,8 @@ client.connect((err) => {
                 }
             ],
         }
-        inquiriesCollection.insertOne(inquiryData);
+        inqCollection.insertOne(inquiryData);
+        redisClient.publish("messages", JSON.stringify(inquiryData));
     });
 
     app.get("/api/viewInquiry", (req, res) => {
@@ -50,7 +51,7 @@ client.connect((err) => {
             ],
         }
         res.send(messages);
-        inquiriesCollection.find(inquiryData).toArray();
+        inqCollection.find(inquiryData).toArray();
     });
 
     
