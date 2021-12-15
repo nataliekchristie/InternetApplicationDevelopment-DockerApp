@@ -2,14 +2,20 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const { MongoClient } = require('mongodb');
 const redis = require('redis');
+
 const client = redis.createClient({ host: process.env.REDIS_HOST || 'localhost' });
+global.TextEncoder = require("util").TextEncoder;
+global.TextDecoder = require("util").TextDecoder;
+//const mongoose  = require('mongoose');
+//const {Schema} = mongoose;
 
 // monogo init
 const url = process.env.MONGO_HOST || 'mongodb://localhost:27017';
 const mongoClient = new MongoClient(url);
 
-const Schema = mongoose.Schema;
+//const Schema = mongoose.Schema;
 
+/*
 let list = new Schema({
   title: {
     type: String
@@ -23,9 +29,10 @@ let list = new Schema({
   price: {
     type: Number
   }
-});
+});*/
 
-module.exports = mongoose.model("list", list);
+//let List = mongoose.model("list", list);
+//module.exports = List;
 
 mongoClient.connect((err) => {
   if (err) console.log(err);
@@ -66,20 +73,33 @@ mongoClient.connect((err) => {
     .catch((e) => console.log(e));
   });
 
-  app.post('/api/makeListing', (req,res) => {
+  app.post('/listingapi/makeListing', (req,res) => {
     var listingData = {
       title: req.body.title,
       description: req.body.description,
       type: req.body.type,
       price: req.body.price,
     }
-  })
+  });
 
+  export const submitListing = () => (dispatch, getState) => {
+    axios.post('/listingapi/createListing', { 
+      type: getState().listingReducer.type,
+      description: getState().listingReducer.description, 
+      price: getState().listingReducer.price,
+      title: getState().listingReducer.title   })
+      .then(() => { 
+        console.log("Success");
+      })
+      .catch(e => console.log(e));
+    dispatch(handlTextChange(''));
+  };
+/*
   app.send('/api/makeListing', (req,res) => {
     db.collection('test').insertOne({})
-  })
+  })*/
 
-  app.listen(5000);
+
+  app.listen(7000);
   // end app logic
 });
-

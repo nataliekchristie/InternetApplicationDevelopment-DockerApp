@@ -2,82 +2,139 @@ import React, {useState} from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateMessages, handlTextChange, submitMessage } from './redux/actions/messageActions';
+import { createListing, updateDescription, updatePrice, updateTitle, updateType } from './redux/actions/listingActions';
 import './App.css';
+import FormData from 'form-data'
 
 const Message = ({ data }) => (<div>{data}</div>);
 
 const App = ({ adminMode = true }) => {
-  const text = useSelector(state => state.messageReducer.text);
-  const messages = useSelector(state => state.messageReducer.messages);
+  const text = useSelector(globalState => globalState.messageReducer.text);
+  const messages = useSelector(globalState => globalState.messageReducer.messages);
+  // const listtitle = useSelector(globalState => globalState.listingReducer.title);
+  // const listdescription = useSelector(globalState => globalState.listingReducer.description);
+  // const listprice = useSelector(globalState => globalState.listingReducer.price);
+  // const listtype = useSelector(globalState => globalState.listingReducer.type);
   const dispatch = useDispatch();
 
   // used for setting info when making new listing
-  const [title, setTitle] = React.useState('');
-  const [description, setDescription] = React.useState('');
-  const [type, setType] = React.useState('');
-  const [price, setPrice] = React.useState('');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [type, setType] = useState('');
+  const [price, setPrice] = useState('');
+  const [image, setImage] = useState();
   
   // for making messages
   const [message, setMessage] = React.useState('');
 
   // used to stream existing listings
   const [listings, setListings] = useState([]);
-  const addListing = newListing=> setListings(state => [...state, newListing]);
-
-  // use for when we create listing form 
-  function submitListing(e){
-    e.preventDefault();
-    axios.post('/api/makingListing', {
-      title: title,
-      description: description,
-      type: type,
-      price: price,
-    })
-    .then( res => {
-      console.log("Listing made")
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-  }
-  
-  // submit message saved in state
-
-  const submitMessage = () => {
-    console.log('Submitting message');
-
-    setMessage('');
-  }
+  const addListing = newListing => setListings(state => [...state, newListing]);
 
   // uses api function to get listings from mongodb and stores in array
+
+  /*
   function getListings(){
-    axios.get('/getListings', (req,res) => {
+    axios.get('/listingapi/getListings', (req,res) => {
     })
     .then((res) => res.data.forEach(listing => addListing(listing)))
     .catch((err) => {
       console.log(err);
     });
-  }
+  }*/
 
+  /*
+  // load listings 
   React.useEffect(() => {
-    axios.get('/messanger/getMessages')
-      .then((res) => {
-        dispatch(updateMessages(res.data));
-      })
+    axios.get('/listingapi/getListings')
+      .then((res) => res.data.forEach(listing => addListing(listing)))
       .catch((e) => {
         console.log(e);
       });
-      // call listings upon load
-      getListings();
+  }, []);*/
+
+  React.useEffect(() => {
+    try {
+      axios
+        .get('/listingapi/getListings')
+        .then(response => response.data.forEach(listing => addListing(listing)));
+    }
+    catch (err) {
+      console.log(err);
+    }
+
   }, []);
 
+
+const createListing = () => {
+    console.log("reached createListing action");
+    axios.post('/listingapi/createListing', { 
+      type: type,
+      description: description,
+      title: title,
+      price: price,  })
+      .then(() => { 
+        console.log("Success");
+      })
+      .catch((e) => console.log(e));
+  };
+
+  // const createListing = () => {
+//   const postData = new FormData();
+//   let file = image.files[0];
+//   postData.append('image',file,file.name);
+//   postData.append('description',description);
+//   postData.append('type',type);
+//   postData.append('title',title);
+//   postData.append('price',price);
+//   axios.post('/listingapi/createListing', postData)
+//     .then(() => { 
+//       console.log("Listing successfully made");
+//     })
+//     .catch(e => console.log(e));
+// };
+
+  const listingDescription = (e) => {
+    setDescription(e.target.value);
+    dispatch(updateDescription((e.target.value)));
+    console.log("description updated");
+   // console.log(listdescription);
+  };
+
+  const listingTitle = (e) => {
+    setTitle(e.target.value);
+    dispatch(updateTitle((e.target.value)));
+    console.log("title updated");
+   //console.log(listtitle);
+  };
+
+  const listingPrice = (e) => {
+    setPrice(e.target.value);
+    dispatch(updatePrice((e.target.value)));
+    console.log("price updated");
+  //  console.log(listprice);
+  };
+
+  const listingType = (e) => {
+    setType(e.target.value);
+    dispatch(updateType((e.target.value)));
+    console.log("type updated");
+  //   console.log(listtype);
+  };
+
+   
   const onSubmit = () => {
-    dispatch(submitMessage());
+    console.log("reached submit");
+   // dispatch(createListing());
+   createListing();
+    console.log("listing info submitted");
   }
 
+
+  /*
   const handleTextChange = (e) => {
-    dispatch(handleTextChange(e.target.value));
-  };
+    dispatch(handlTextChange(e.target.value));
+  };*/
 /*
   return (
     <div className="App">
@@ -94,20 +151,57 @@ const App = ({ adminMode = true }) => {
       </div>
     </div>
   ); */
+
+  
   if(adminMode){
   return(
-    <div>
-      <div className ="listingCreationForm">
-      <form>
-        <textarea id="input-description" onChange={e => setDescription(e.target.value)}></textarea>
-        <textarea id="input-type" onChange={e => setType(e.target.value)}></textarea>
-        <textarea id="input-price" onChange={e => setPrice(e.target.value)}></textarea>
-        <textarea id="input-title" onChange={e => setTitle(e.target.value)}></textarea>
-        <button id="submit" onClick={() => submitListing()}>Submit</button>
-      </form>
-    </div>
+    <div className="container">
+      <div className="header">
+        <div className="headerContent">
+
+        </div>
+      </div>
+      <div className="leftsidebar">
+        <div className="leftsidebarContent"></div>
+      </div>
+      <div className="centercontent">
+     {/* THIS IS AN EXAMPLE LISTING TO FORMATTING CSS */}
       <div className="listings">
-        {listings.map(listing => (
+      <div className="listing">
+        <div className="listingTitle">Listing Title</div>
+        <div className="listingImage"><img src="https://dummyimage.com/200x200/e3e3e3/525252.jpg"></img></div>
+        <div className="listingDescription">Description for listing</div>
+        <div className="listingType">Listing type</div>
+        <div className="listingPrice">$100</div>
+        {/* inquiry */}
+        <div className="inquiry"><textarea value={message} onChange={e => setMessage(e.target.value)}></textarea></div>
+        <div><button onClick={submitMessage}>Submit Inquiry</button></div>
+        <div>{messages.map((i) => <div>(i)</div>)}</div>
+        </div>
+        <div className="listing">
+        <div className="listingTitle">Listing Title</div>
+        <div className="listingImage"><img src="https://dummyimage.com/200x200/e3e3e3/525252.jpg"></img></div>
+        <div className="listingDescription">Description for listing</div>
+        <div className="listingType">Listing type</div>
+        <div className="listingPrice">$100</div>
+
+        <div className="inquiry"><textarea value={message} onChange={e => setMessage(e.target.value)}></textarea></div>
+        <div><button onClick={submitMessage}>Submit Inquiry</button></div>
+        <div>{messages.map((i) => <div>(i)</div>)}</div>
+        </div>
+        <div className="listing">
+        <div className="listingTitle">Listing Title</div>
+        <div className="listingImage"><img src="https://dummyimage.com/200x200/e3e3e3/525252.jpg"></img></div>
+        <div className="listingDescription">Description for listing</div>
+        <div className="listingType">Listing type</div>
+        <div className="listingPrice">$100</div>
+
+        <div className="inquiry"><textarea value={message} onChange={e => setMessage(e.target.value)}></textarea></div>
+        <div><button onClick={submitMessage}>Submit Inquiry</button></div>
+        <div>{messages.map((i) => <div>(i)</div>)}</div>
+        </div>
+        {/*
+         {listings.map(listing => (
         <div className="listing">
         <div className="listingTitle">{listing.title}</div>
         <div className="listingDescription">{listing.description}</div>
@@ -116,12 +210,14 @@ const App = ({ adminMode = true }) => {
         <form>
           <textarea name="textarea" onChange={e => setMessage(e.target.value)} />
           {message}
-          {/* <button className="submit" onClick={() => submitInquiry()}></button> */}
+          <button className="submit" ></button>
         </form>
         </div>
-        ))}
+        ))}*/}
       </div>
-      <div className="App">
+
+      {/* INQUIRY INPUT TEXTBOX */}
+      {/* <div className="App">
         <textarea value={message} onChange={e => setMessage(e.target.value)}></textarea>
         <div>
           <button onClick={submitMessage}>Submit Message</button>
@@ -129,23 +225,54 @@ const App = ({ adminMode = true }) => {
         <div>
           {messages.map((i) => <div>(i)</div>)}
         </div>
+      </div> */}
       </div>
+      <div className="rightsidebar">
+        <div className="rightsidebarContent">
+        <div className ="listingCreationForm">
+      <form>
+        <div className="makeListing">Make Listing</div>
+        <div className="listingText">Description:</div>
+        <div className="makeListingBox"><textarea id="input-description" onChange={listingDescription}></textarea></div>
+        <div className="listingText">Type:</div>
+        <div className="makeListingBox"><textarea id="input-type" onChange={listingType}></textarea></div>
+        <div className="listingText">Price:</div>
+        <div className="makeListingBox"><textarea id="input-price" onChange={listingPrice}></textarea></div>
+        <div className="listingText">Title:</div>
+        <div className="makeListingBox"><textarea id="input-title" onChange={listingTitle}></textarea></div>
+        <input id="file-input" class="file-input" type="file" accept="image/gif, image/jpeg, image/png" onChange = {e => setImage(e)}/>        
+     
+        <div><button className="makeListingSubmit" id="submit" onClick={onSubmit}>GO!</button></div>
+      </form>
+      </div>
+        </div>
+      </div>
+      <div className="footer"></div>
       </div>
   );
   }
   else{
     return(
       <div>
+        {/* THIS IS EXAMPLE LISTING TO FORMAT*/}
         <div className="listings">
+        <div className="listing">
+      <div className="listingTitle">"Listing Title"</div>
+      <div className="listingDescription">This is a filler description</div>
+      <div className="listingType">Type</div>
+      <div className="listingPrice">Price</div>
+      <div className="listingDelete" >Delete</div>
+      </div>
+          {{/* 
         {listings.map(listing => (
       <div className="listing">
       <div className="listingTitle">{listing.title}</div>
       <div className="listingDescription">{listing.description}</div>
       <div className="listingType">{listing.type}</div>
       <div className="listingPrice">{listing.price}</div>
-      {/* <div className="listingDelete" onClick={() => deleteListing()}>Delete</div> */}
+      <div className="listingDelete" >Delete</div>
       </div>
-        ))}
+        ))}*/}}
       </div>
     </div>
 
