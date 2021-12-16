@@ -21,7 +21,17 @@ const webSocket = new WebSocket('ws://' + window.location.host.split(':')[0] + (
 
 webSocket.onmessage = (message) => {
   console.log(message)
-  store.dispatch(insertMessage(message.data));
+
+  console.log('Got a message from server! ' + message.data);
+  const currentMessages = store.getState().messageReducer.messages;
+  console.log(currentMessages);
+  const newMessages = currentMessages.slice(0);
+  newMessages.push(message.data); // new incoming message
+  store.dispatch({
+    type: 'SET_MESSAGES',
+    messages: newMessages,
+  });
+  // store.dispatch(insertMessage(message.data));
 };
 
 ReactDOM.render(

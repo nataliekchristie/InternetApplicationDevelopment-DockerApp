@@ -33,7 +33,7 @@ const upload = multer({storage: storageListing});
 
 app.use(cors());
 
-//producer.connect(() => console.log('Kafka Connected'));
+producer.connect(() => console.log('Kafka Connected'));
 
     const dbAddress = process.env.MONGO_HOST || 'mongodb://localhost:27017';
     const client = new MongoClient(dbAddress);

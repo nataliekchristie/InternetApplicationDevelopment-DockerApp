@@ -37,25 +37,32 @@ let list = new Schema({
 mongoClient.connect((err) => {
   if (err) console.log(err);
   const db = mongoClient.db('test101');
+
   // move app logic in here
   const app = express();
   app.use(bodyParser.json());
+
+  const messages = ['Test Message']; // erased if app restarts
+
   // sorry for spelling wrong :(
-  app.post('/messanger/postMessage', (req, res) => {
+  app.post('/messanger/postMessage', (req, res) => {    
+    messages.push(req.body);
     console.log(req.body);
     db.collection('test').insertOne({ data: req.body.message })
       .then(() => console.log('db insert worked'))
       .catch((e) => console.log(e));
     client.publish('testPublish', req.body.message);
     res.send('ok');
-  });
+  });  
 
-  app.get('/messanger/getMessages', (req, res) => {
+  app.get('/messanger/getMessages', (req, res) => {    
     db.collection('test').find({}).toArray()
       .then((result) => {
         res.send(result.map(r => r.data));
       })
       .catch((e) => console.log(e));
+    
+      res.send(messages);
   });
 
   app.get('/api/getListings', (req,res) => {

@@ -1,7 +1,7 @@
-const initialState = () => ({
+const INITIAL_STATE = {
     loggedin: false,
     username: '',
-  });
+  };
   
   const loginReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {

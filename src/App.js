@@ -31,7 +31,7 @@ const App = ({ adminMode = true }) => {
   
   
   // for making messages
-  const [message, setMessage] = useState();
+  const [message, setMessage] = React.useState('');
 
   // used to stream existing listings
   const [listings, setListings] = useState([]);
@@ -221,6 +221,10 @@ const deleteListing = (listingid) => {
         <div className="listingDescription">Description for listing</div>
         <div className="listingType">Listing type</div>
         <div className="listingPrice">$100</div>
+        {/* inquiry */}
+        <div className="inquiry"><textarea value={message} onChange={e => setMessage(e.target.value)}></textarea></div>
+        <div><button onClick={submitMessage}>Submit Inquiry</button></div>
+        <div>{messages.map((i) => <div>(i)</div>)}</div>
         </div>
         <div className="listing">
         <div className="listingTitle">Listing Title</div>
@@ -228,6 +232,10 @@ const deleteListing = (listingid) => {
         <div className="listingDescription">Description for listing</div>
         <div className="listingType">Listing type</div>
         <div className="listingPrice">$100</div>
+
+        <div className="inquiry"><textarea value={message} onChange={e => setMessage(e.target.value)}></textarea></div>
+        <div><button onClick={submitMessage}>Submit Inquiry</button></div>
+        <div>{messages.map((i) => <div>(i)</div>)}</div>
         </div>
         <div className="listing">
         <div className="listingTitle">Listing Title</div>
@@ -235,6 +243,10 @@ const deleteListing = (listingid) => {
         <div className="listingDescription">Description for listing</div>
         <div className="listingType">Listing type</div>
         <div className="listingPrice">$100</div>
+
+        <div className="inquiry"><textarea value={message} onChange={e => setMessage(e.target.value)}></textarea></div>
+        <div><button onClick={submitMessage}>Submit Inquiry</button></div>
+        <div>{messages.map((i) => <div>(i)</div>)}</div>
         </div>
         
          {listings.map(listing => (
@@ -251,6 +263,17 @@ const deleteListing = (listingid) => {
         </div>
         ))}
       </div>
+
+      {/* INQUIRY INPUT TEXTBOX */}
+      {/* <div className="App">
+        <textarea value={message} onChange={e => setMessage(e.target.value)}></textarea>
+        <div>
+          <button onClick={submitMessage}>Submit Message</button>
+        </div>
+        <div>
+          {messages.map((i) => <div>(i)</div>)}
+        </div>
+      </div> */}
       </div>
       <div className="rightsidebar">
         <div className="rightsidebarContent">
