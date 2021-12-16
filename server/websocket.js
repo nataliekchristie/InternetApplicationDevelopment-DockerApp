@@ -1,10 +1,15 @@
 const WebSocket = require('ws');
 const redis = require('redis');
-const client = redis.createClient({ host: process.env.REDIS_HOST || 'localhost' }); // Connection to redis
+const express = require('express');
+// const client = redis.createClient({ host: process.env.REDIS_HOST || 'localhost' }); // Connection to redis
+const client = redis.createClient();
 
-const wss = new WebSocket.Server({ port: 6000 });
+const app = express();
+app.use(express.json());
 
-/*
+const wss = new WebSocket.Server({ port: 5000 });
+
+
 wss.on('connection', (ws) => {
   // ws represents a connection to a browser
   // stays active entire time browser is open
@@ -13,6 +18,8 @@ wss.on('connection', (ws) => {
 
   ws.on('message', (message) => {
     // when client sends message to server
+    // ws['accountId'] = JSON.parse(message)['accountId']
+    // ws['username'] = JSON.parse(message)['username']
   });
 
   ws.on('close', (message) => {
@@ -26,57 +33,46 @@ wss.on('connection', (ws) => {
 // Redis client
 client.on('message', (channel, message) => { // all channels for now
   // this code runs when message is read
-  console.log(`subscriber hears message ${message}`);
+  // console.log(`subscriber hears message ${message}`);
+  console.log('Got message : ' + message);
   // broadcast
-  wss.clients.forEach((client) => {
-    client.send(message);
-  });
+  wss.clients.forEach(wsClients => wsClients.send(message));  
 });
 
-client.subscribe('testPublish');
-*/
-
-
-wss.on('connection', (ws) => {
-  console.log('Someone has connected!');
-  ws.on('message', (message) => {
-    ws['accountId'] = JSON.parse(message)['accountId']
-    ws['username'] = JSON.parse(message)['username']
-  })
-});
+// client.subscribe('testPublish');
 
 // A helper function that broadcasts the message to all the clients
-const broadcast = (message) => {
-  wss.clients.forEach(client => client.send(message));
-};
+// const broadcast = (message) => {
+//   wss.clients.forEach(client => client.send(message));
+// };
 
-client.on('message', (channel, message) => {
-  console.log('Got message: ' + message);
+// client.on('message', (channel, message) => {
+//   console.log('Got message: ' + message);
   
-  // switch (JSON.parse(message)['type']) {
-  //   case '/listingapi/createListing':
-  //   // case '/listingapi/delete':
-  //   // case '/listingapi/edit':
-  //     console.log(`${JSON.parse(message)['type']}`, message);
-  //     broadcast(message);
-  //     break;
-  //   case '/createInquiry/create':
-  //   // case '/CreateInquiry/reply':
-  //     console.log(`${JSON.parse(message)['type']}`, message);
-  //     wss.clients.forEach((ws) => {
-  //       if (ws['accountId'] == JSON.parse(message)['accountIdOwner'] || 
-  //           ws['accountId'] == JSON.parse(message) ['accountIdInterested']) {
-  //             ws.send(message);
-  //           }
-  //     });
-  //     break;
-  //     default:
-  //       console.log('An unknown: ', channel);
-  //       break;
-  // }
-});
+//   // switch (JSON.parse(message)['type']) {
+//   //   case '/listingapi/createListing':
+//   //   // case '/listingapi/delete':
+//   //   // case '/listingapi/edit':
+//   //     console.log(`${JSON.parse(message)['type']}`, message);
+//   //     broadcast(message);
+//   //     break;
+//   //   case '/createInquiry/create':
+//   //   // case '/CreateInquiry/reply':
+//   //     console.log(`${JSON.parse(message)['type']}`, message);
+//   //     wss.clients.forEach((ws) => {
+//   //       if (ws['accountId'] == JSON.parse(message)['accountIdOwner'] || 
+//   //           ws['accountId'] == JSON.parse(message) ['accountIdInterested']) {
+//   //             ws.send(message);
+//   //           }
+//   //     });
+//   //     break;
+//   //     default:
+//   //       console.log('An unknown: ', channel);
+//   //       break;
+//   // }
+// });
 
 client.subscribe("services"); // Start listening to messages
 
-console.log('Websocket server listing on port 6000');
+console.log('Websocket server listing on port 5000');
 // console.log('Check');

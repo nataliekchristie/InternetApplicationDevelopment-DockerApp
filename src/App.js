@@ -35,7 +35,37 @@ const App = ({ adminMode = true }) => {
 
   // used to stream existing listings
   const [listings, setListings] = useState([]);
-  
+
+  // fetch existing messages
+  React.useEffect(() => {
+    // triggers when component mounts
+    fetch('/service1/get-messages') // defaults to GET
+    .then(res => res.json())
+    .then(result => {
+      console.log(result);
+      dispatch({
+        type: 'UPDATE_MESSAGES',
+        messages: result,
+      });
+    })
+    .catch(console.log);
+  }, []);
+
+  // change to submitMessage later
+  const enterMessage = () => {
+    console.log('Submitting message');
+
+    const requestOptions = {
+      method: 'post',
+      body: message,
+    };
+    fetch('/service1/submit-message', requestOptions) // makes network request
+      .catch(console.log);
+
+    setMessage('');
+  }
+  // uses api function to get listings from mongodb and stores in array
+
   React.useEffect(() => {
     try {
       axios
@@ -221,34 +251,29 @@ const deleteListing = (listingid) => {
         <div className="listingDescription">Description for listing</div>
         <div className="listingType">Listing type</div>
         <div className="listingPrice">$100</div>
+
         {/* inquiry */}
         <div className="inquiry"><textarea value={message} onChange={e => setMessage(e.target.value)}></textarea></div>
-        <div><button onClick={submitMessage}>Submit Inquiry</button></div>
-        <div>{messages.map((i) => <div>(i)</div>)}</div>
+        <div><button onClick={enterMessage}>Submit Inquiry</button></div>
+        <div>{messages.map(i => <div>{i}</div>)}</div>
         </div>
         <div className="listing">
         <div className="listingTitle">Listing Title</div>
         <div className="listingImage"><img src="https://dummyimage.com/200x200/e3e3e3/525252.jpg"></img></div>
         <div className="listingDescription">Description for listing</div>
         <div className="listingType">Listing type</div>
-        <div className="listingPrice">$100</div>
-
-        <div className="inquiry"><textarea value={message} onChange={e => setMessage(e.target.value)}></textarea></div>
-        <div><button onClick={submitMessage}>Submit Inquiry</button></div>
-        <div>{messages.map((i) => <div>(i)</div>)}</div>
+        <div className="listingPrice">$100</div>        
         </div>
         <div className="listing">
         <div className="listingTitle">Listing Title</div>
         <div className="listingImage"><img src="https://dummyimage.com/200x200/e3e3e3/525252.jpg"></img></div>
         <div className="listingDescription">Description for listing</div>
         <div className="listingType">Listing type</div>
-        <div className="listingPrice">$100</div>
-
-        <div className="inquiry"><textarea value={message} onChange={e => setMessage(e.target.value)}></textarea></div>
-        <div><button onClick={submitMessage}>Submit Inquiry</button></div>
-        <div>{messages.map((i) => <div>(i)</div>)}</div>
+        <div className="listingPrice">$100</div>        
         </div>
+
         
+        {/*
          {listings.map(listing => (
         <div className="listing">
         <div className="listingTitle">{listing.title}</div>
@@ -263,17 +288,7 @@ const deleteListing = (listingid) => {
         </div>
         ))}
       </div>
-
-      {/* INQUIRY INPUT TEXTBOX */}
-      {/* <div className="App">
-        <textarea value={message} onChange={e => setMessage(e.target.value)}></textarea>
-        <div>
-          <button onClick={submitMessage}>Submit Message</button>
-        </div>
-        <div>
-          {messages.map((i) => <div>(i)</div>)}
-        </div>
-      </div> */}
+     
       </div>
       <div className="rightsidebar">
         <div className="rightsidebarContent">
