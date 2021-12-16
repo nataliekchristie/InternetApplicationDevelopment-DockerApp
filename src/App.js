@@ -37,19 +37,19 @@ const App = ({ adminMode = true }) => {
   const [listings, setListings] = useState([]);
 
   // fetch existing messages
-  React.useEffect(() => {
-    // triggers when component mounts
-    fetch('/service1/get-messages') // defaults to GET
-    .then(res => res.json())
-    .then(result => {
-      console.log(result);
-      dispatch({
-        type: 'UPDATE_MESSAGES',
-        messages: result,
-      });
-    })
-    .catch(console.log);
-  }, []);
+  // React.useEffect(() => {
+  //   // triggers when component mounts
+  //   fetch('/service1/get-messages') // defaults to GET
+  //   .then(res => res.json())
+  //   .then(result => {
+  //     console.log(result);
+  //     dispatch({
+  //       type: 'UPDATE_MESSAGES',
+  //       messages: result,
+  //     });
+  //   })
+  //   .catch(console.log);
+  // }, []);
 
   // change to submitMessage later
   const enterMessage = () => {
@@ -67,14 +67,12 @@ const App = ({ adminMode = true }) => {
   // uses api function to get listings from mongodb and stores in array
 
   React.useEffect(() => {
-    try {
       axios
         .get('/listingapi/getListings')
-        .then(response => {setListings(response.data)});
-    }
-    catch (err) {
+        .then(response => {setListings(response.data)})
+    .catch ( (err) => {
       console.error(err);
-    }
+    });
 
   }, []);
 
@@ -101,17 +99,17 @@ const App = ({ adminMode = true }) => {
     .catch(e => console.log(e));
 };
 
-const deleteListing = (listingid) => {
-  /*
+const deleteListing = (listingtitle) => {
+  const title = listingtitle;
   console.log("Reached deleteListing in App.js");
-  axios.get('/listingapi/deleteListing',listingid)
+  axios.get('/listingapi/deleteListing',title)
   .then(() => {
     console.log("Listing deleted");
   })
   .catch( (e) => {
     console.log(e);
     console.log("error in deleting listing");
-  });*/
+  });
 }
 
   const listingDescription = (e) => {
@@ -192,7 +190,7 @@ const deleteListing = (listingid) => {
         <div className="listingDescription">{listing.description}</div>
         <div className="listingType">{listing.type}</div>
         <div className="listingPrice">{listing.price}</div>
-        <div className="delete-button" onClick={deleteListing()}>remove listing</div>
+        <div className="delete-button" onClick={deleteListing(listing.title)}>remove listing</div>
         </div>
          ))}
       </div>
@@ -286,7 +284,7 @@ const deleteListing = (listingid) => {
           <button className="submit" ></button>
         </form>
         </div>
-        ))}
+         ))} */}
       </div>
      
       </div>

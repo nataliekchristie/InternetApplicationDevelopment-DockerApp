@@ -33,7 +33,7 @@ const upload = multer({storage: storageListing});
 
 app.use(cors());
 
-producer.connect(() => console.log('Kafka Connected'));
+//producer.connect(() => console.log('Kafka Connected'));
 
     const dbAddress = process.env.MONGO_HOST || 'mongodb://localhost:27017';
     const client = new MongoClient(dbAddress);
@@ -143,12 +143,22 @@ client.connect((err) => {
     });
 
     app.get("/listingapi/deleteListing", (req,res) => {
-        // logic for removing listing from mongodb
+        listCollection.deleteOne({title:req.body.title})
+        .then((response) => console.log("listing removed"))
+        .catch(err => console.log(err));
     })
 
     // temporarily putting login info here
     app.get('/listingapi/getUserInfo', (req,res) => {
-        userCollection.find()
+        userCollection.find({username: req.body.username})
+        .then((response) => {
+            console.log("User info found");
+            res.send(response);
+        })
+        .catch((err) => {
+            console.log("Error in getUserInfo");
+            console.log(err);
+        })
     });
 
     app.get('/listingapi/getImage100/:title', (req,res) => {
