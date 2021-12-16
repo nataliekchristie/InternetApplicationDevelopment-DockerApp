@@ -4,6 +4,7 @@ WORKDIR /main
 COPY ./server/listingapi.js /main
 COPY ./package.json /main
 COPY ./package-lock.json /main
+COPY ./server/images /main/server/images
 
 RUN npm install
 

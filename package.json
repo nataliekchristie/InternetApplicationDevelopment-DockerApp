@@ -6,6 +6,8 @@
   "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
+    "canvas": "^2.8.0",
+    "cors": "^2.8.5",
     "express": "^4.16.4",
     "form-data": "^4.0.0",
     "fs": "^0.0.1-security",
@@ -33,7 +35,6 @@
     "build-messanger": "docker build -f devops/messanger.Dockerfile -t messanger-demo . && docker tag messanger-demo nataliekchristie/messanger-demo && docker push nataliekchristie/messanger-demo",
     "build-frontend": "docker build -f devops/frontend.Dockerfile -t react-demo . && docker tag react-demo nataliekchristie/react-demo && docker push nataliekchristie/react-demo",
     "build-listingapi": "docker build -f devops/listingapi.Dockerfile -t react-demo . && docker tag react-demo nataliekchristie/listingapi && docker push nataliekchristie/listingapi",
-    "build-all-docker": "",
     "deploy": "docker-compose -f devops/docker-compose.yml pull && docker stack deploy -c devops/docker-compose.yml message-app",
     "stop": "docker stack remove message-app"
   },

@@ -76,6 +76,7 @@ body {
   grid-area: header; 
   height: 100px;
   justify-content: center;
+  align-content: center;
 }
 .footer { 
   grid-area: footer;
@@ -83,9 +84,14 @@ body {
   width: 100%;
 }
 .leftsidebar { 
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  text-align: center;
   grid-area: leftsidebar;
   height: 100%;
-  width: 150px;
+  width: 300px;
   overflow: hidden;
  }
 
@@ -117,6 +123,10 @@ body {
   }
 
   .headerContent{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items:center;
     height: 80%;
     width: 90%;
     border-bottom: 1px solid #ededed;
@@ -180,4 +190,72 @@ body {
 
   .makeListingSubmit:hover{
     background-color: #ededed;
+  }
+  
+
+.file-input{
+  font-size: 15px;
+    margin: 10px;
+    border: 1px solid #ededed;
+    border-radius: 5px;
+    background-color: white;
+    font-family: andale mono, verdana, sans-serif;
+    padding: 10px;
+}
+
+  .file-input-label{
+    font-size: 15px;
+    margin: 10px;
+    border: 1px solid #ededed;
+    border-radius: 5px;
+    background-color: white;
+    font-family: andale mono, verdana, sans-serif;
+    padding: 10px;
+  }  
+
+  .loginBox{
+  }
+
+  .loginBox textarea{
+    height: 10px;
+    text-align: center;
+    border: 1px solid #e6e6e6;
+    border-radius: 10px;
+    padding: 15px;
+  }
+
+  .login-content{
+
+  }
+
+  .login-username{
+    padding: 10px;
+  }
+
+  .login-password{
+    padding: 10px;
+  }
+
+  .login-login{
+    font-size: 20px;
+    border-bottom: 2px solid #e6e6e6;
+  }
+
+  .login-submit{
+    font-size: 15px;
+    margin: 10px;
+    border: 1px solid #ededed;
+    border-radius: 5px;
+    background-color: white;
+    font-family: andale mono, verdana, sans-serif;
+    padding: 5px;
+  }
+
+  .delete-button{
+    font-size: 12px;
+    padding-right: 25px;
+    display: flex;
+    justify-content: right;
+    align-content: right;
+    align-items: right;
   }

@@ -8,17 +8,30 @@ const { MongoClient, ObjectId } = require('mongodb');
 const port = 5000;
 //const redis = require('redis');
 //const redisClient = redis.createClient({ host: process.env.REDIS_HOST || 'localhost' });
-// const path = require("path");
-// const multer = require("multer");
-// const fs = require('fs');
-// const Clipper = require('image-clipper');
+const path = require("path");
+const multer = require("multer");
+const fs = require('fs');
+const Clipper = require('image-clipper');
+const cors = require('cors');
+const canvas = require('canvas');
 
-// const storageListing = multer.diskStorage({
-// 	destination: function(req, file, callback) {
-// 			callback(null, path.resolve(__dirname, '../src/images'));
-// 	}
-// });
-// const upload = multer({storage: storageListing});
+Clipper.configure('canvas', canvas);
+
+
+const storageListing = multer.diskStorage({
+    destination: function(req, file, cb) {
+      cb(null, path.join(__dirname,'server/images'));
+    },
+    filename: function(req, file, cb) {
+      cb(null, file.originalname);
+    }
+  });
+  
+
+
+const upload = multer({storage: storageListing});
+
+app.use(cors());
 
 //producer.connect(() => console.log('Kafka Connected'));
 
@@ -40,83 +53,79 @@ client.connect((err) => {
 
     console.log('Connected to Mongodb');
 
-    // app.post("/listingapi/createListing", upload.single('image'), (req, res) => {
-    //    // let filename = path.parse(req.image.filename).name;
-    //     let filename = req.image.filename;
-    //     let filePath = req.file.path;
-    //     /*
-    //     let image = fs.readFileSync(req.file.path);
-      
-    //     let encodedimage = image.toString("base64");
-    //     let imagetosubmit = {
-    //       contentType: req.file.mimetype,
-    //       image: Buffer.from(encodedimage, "base64"),
-    //     };*/
+    
+    app.post("/listingapi/createListing", upload.single("file"), async (req, res) => {
 
-    //     let image100 = "100-"+filename;
-    //     let image500 = "500-"+filename;
+        console.log("Reached createListing api");
+       
+        console.log(req.file)
+     
+        const filename = path.parse(req.file.path).base;
 
-    //     Clipper(filePath, function() {
-    //         this.crop(20, 20, 100, 100)
-    //         .resize(100, 100)
-    //         .quality(100)
-    //         .toFile(path.join(__dirname, '../src/images',image100), function() {
-    //            console.log('image 100x100 saved');
-    //        });
-    //     });
+        console.log(filename);
 
-    //     Clipper(filePath, function() {
-    //         this.crop(20, 20, 100, 100)
-    //         .resize(500, 500)
-    //         .quality(100)
-    //         .toFile(path.join(__dirname, '../src/images', image500), function() {
-    //            console.log('image 500x500 saved');
-    //        });
-    //     });
+        console.log("before image declaration name");
+        let image100 = '100x100'+filename;
+        let image500 = '500x500'+filename;
 
-    //     const listingData = {
-    //         title: req.body.title,
-    //         description: req.body.description,
-    //         type: req.body.type,
-    //         price: req.body.price,
-    //         image: filename,
-    //         image100: image100,
-    //         image500: image500,
-    //     };
-        
-    //     return listCollection.insertOne(listingData)
-    //     .then(() => console.log("Listing inserted into db"))
-    //     .catch((e) => console.log(e));
-    //     /*
-    //     producer.send({
-    //         listingData
-    //     });*/
-        
-    // });
+        let image100_path = '../main/server/images/'+image100;
+        let image500_path = '../main/server/images/'+image500;
 
-    app.post("/listingapi/createListing", (req, res) => {
-        console.log("reached createListing");
+        console.log(image100);
+        console.log(image500);
+
+        console.log("before clipper");
+        Clipper(req.file.path, function() {
+            console.log("clipper 1");
+            this.crop(20, 20, 800, 800)
+            .resize(100, 100)
+            .quality(100)
+            .toFile(path.join(__dirname, 'server/images',image100), function() {
+               console.log('image 100x100 saved');
+           });
+        });
+
+        Clipper(req.file.path, function() {
+            console.log("clipper 2");
+            this.crop(20, 20, 800, 800)
+            .resize(500, 500)
+            .quality(100)
+            .toFile(path.join(__dirname, 'server/images', image500), function() {
+               console.log('image 500x500 saved');
+           });
+        });
+
+        console.log("before listingData declaration");
+
         const listingData = {
             title: req.body.title,
             description: req.body.description,
             type: req.body.type,
             price: req.body.price,
-        }
-        return listCollection.insertOne(listingData)
+            image: req.file.path,
+            image100: image100_path,
+            image500: image500_path,
+        };
+
+        console.log("before listingCollection insertion");
+        listCollection.insertOne(listingData)
         .then(() => console.log("Listing inserted into db"))
-        .catch((e) => console.log(e));
+        .catch((e) => {
+            console.log(e)
+            console.log("error in createListing");
+        });
         /*
         producer.send({
             listingData
         });*/
         
-    });
+     });
 
 
     app.get('/listingapi/getListings', (req,res) => {
         listCollection.find({}).toArray()
         .then((result) => {
-          res.send(result.data);
+          res.send(result);
         })
         .catch((e) => console.log(e));
       });
@@ -128,13 +137,36 @@ client.connect((err) => {
             type: req.body.type,
             price: req.body.price,
         }
-        res.send(messages);
-        listCollection.find(listingData).toArray();
+        listCollection.findOne(listingData).then(result => {
+          res.send({data: result});
+        })
     });
+
+    app.get("/listingapi/deleteListing", (req,res) => {
+        // logic for removing listing from mongodb
+    })
 
     // temporarily putting login info here
     app.get('/listingapi/getUserInfo', (req,res) => {
         userCollection.find()
+    });
+
+    app.get('/listingapi/getImage100/:title', (req,res) => {
+        listCollection.findOne({title: req.params.title})
+        .then((response) => {
+            const data = fs.readFileSync(response.image100);
+            res.send(data);
+        })
+        .catch(err => {console.error(err), res.status(500)});
+    });
+
+    app.get('/listingapi/getImage500/:title', (req,res) => {
+        listCollection.findOne({title: req.params.title})
+        .then((response) => {
+            const data = fs.readFileSync(response.image500);
+            res.send(data);
+        })
+        .catch(err => {console.error(err), res.status(500)});
     });
 
    // app.listen(port, () => console.log(`Listing on port ${port}`));

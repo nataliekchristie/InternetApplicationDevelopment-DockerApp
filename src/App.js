@@ -17,82 +17,72 @@ const App = ({ adminMode = true }) => {
   // const listtype = useSelector(globalState => globalState.listingReducer.type);
   const dispatch = useDispatch();
 
+  
+
   // used for setting info when making new listing
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [type, setType] = useState('');
   const [price, setPrice] = useState('');
-  const [image, setImage] = useState();
+  const [file, setFile] = useState();
+  const [pic100, setpic100] = useState(true);
+  const [pic500, setpic500] = useState(false);
+
+  
   
   // for making messages
   const [message, setMessage] = useState();
 
   // used to stream existing listings
   const [listings, setListings] = useState([]);
-  const addListing = newListing => setListings(state => [...state, newListing]);
-
-  // uses api function to get listings from mongodb and stores in array
-
-  /*
-  function getListings(){
-    axios.get('/listingapi/getListings', (req,res) => {
-    })
-    .then((res) => res.data.forEach(listing => addListing(listing)))
-    .catch((err) => {
-      console.log(err);
-    });
-  }*/
-
-  /*
-  // load listings 
-  React.useEffect(() => {
-    axios.get('/listingapi/getListings')
-      .then((res) => res.data.forEach(listing => addListing(listing)))
-      .catch((e) => {
-        console.log(e);
-      });
-  }, []);*/
-
+  
   React.useEffect(() => {
     try {
       axios
         .get('/listingapi/getListings')
-        .then(response => response.data.forEach(listing => addListing(listing)));
+        .then(response => {setListings(response.data)});
     }
     catch (err) {
-      console.log(err);
+      console.error(err);
     }
 
   }, []);
 
+  const changePic = () => {
+    setpic100(!pic100);
+    setpic500(!pic500);
+    console.log("pic size changed");
+  }
 
-const createListing = () => {
-    console.log("reached createListing action");
-    axios.post('/listingapi/createListing', { 
-      type: type,
-      description: description,
-      title: title,
-      price: price,  })
-      .then(() => { 
-        console.log("Success");
-      })
-      .catch((e) => console.log(e));
-  };
+  const createListing = () => {
+  console.log("Reached createListing in App.js");
+  const postData = new FormData();
+  console.log("After image.files");
+  console.log(file.name);
+  postData.append('description',description);
+  postData.append('type',type);
+  postData.append('title',title);
+  postData.append('price',price);
+  postData.append('file', file, file.name);
+  axios.post('/listingapi/createListing', postData)
+    .then(() => { 
+      console.log("Listing successfully made");
+    })
+    .catch(e => console.log(e));
+};
 
-  // const createListing = () => {
-//   const postData = new FormData();
-//   let file = image.files[0];
-//   postData.append('image',file,file.name);
-//   postData.append('description',description);
-//   postData.append('type',type);
-//   postData.append('title',title);
-//   postData.append('price',price);
-//   axios.post('/listingapi/createListing', postData)
-//     .then(() => { 
-//       console.log("Listing successfully made");
-//     })
-//     .catch(e => console.log(e));
-// };
+const deleteListing = (listingid) => {
+  /*
+  console.log("Reached deleteListing in App.js");
+  axios.get('/listingapi/deleteListing',listingid)
+  .then(() => {
+    console.log("Listing deleted");
+  })
+  .catch( (e) => {
+    console.log(e);
+    console.log("error in deleting listing");
+  });*/
+}
 
   const listingDescription = (e) => {
     setDescription(e.target.value);
@@ -122,6 +112,10 @@ const createListing = () => {
   //   console.log(listtype);
   };
 
+  const setImageHandler = (e) => {
+    setFile(e.target.files[0]);
+  };
+
    
   const onSubmit = () => {
     console.log("reached submit");
@@ -130,39 +124,93 @@ const createListing = () => {
     console.log("listing info submitted");
   }
 
-
-  /*
-  const handleTextChange = (e) => {
-    dispatch(handlTextChange(e.target.value));
-  };*/
-/*
-  return (
-    <div className="App">
-      <div>
-        <div className="message-area">
-          {messages.map((message, i) => <Message key={i} data={message} />)}
-        </div>
-      </div>
-      <div>
-        <input type="text" value={text} onChange={handleTextChange} />
-      </div>
-      <div>
-        <button onClick={onSubmit}>Submit</button>
-      </div>
-    </div>
-  ); */
-
   
   if(adminMode){
   return(
     <div className="container">
       <div className="header">
         <div className="headerContent">
-
+       
         </div>
       </div>
       <div className="leftsidebar">
-        <div className="leftsidebarContent"></div>
+        <div className="leftsidebarContent">
+        <div className="login-content">
+            <form>
+              <div className="login-login">Admin login:</div>
+              <div className="login-username">Username:</div>
+              <div className="loginBox"><textarea></textarea></div>
+              <div className="login-password">Password:</div>
+              <div className="loginBox"><textarea></textarea></div>
+              <div><button className="login-submit" id="submit">Log in</button></div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div className="centercontent">
+      <div className="listings">
+        {
+         listings.map(listing => (
+        <div className="listing" key={listing.title}>
+        <div className="listingTitle">{listing.title}</div>
+        { pic100 &&
+        <div className="listingImage"><img src={`/listingapi/getImage100/`+listing.title} alt="x" onClick={changePic}/></div>
+          }
+          { pic500 &&
+        <div className="listingImage"><img src={`/listingapi/getImage500/`+listing.title} alt="x" onClick={changePic}/></div>
+          }
+        <div className="listingDescription">{listing.description}</div>
+        <div className="listingType">{listing.type}</div>
+        <div className="listingPrice">{listing.price}</div>
+        <div className="delete-button" onClick={deleteListing()}>remove listing</div>
+        </div>
+         ))}
+      </div>
+      </div>
+      <div className="rightsidebar">
+        <div className="rightsidebarContent">
+        <div className ="listingCreationForm">
+      <form>
+        <div className="makeListing">Make Listing</div>
+        <div className="listingText">Description:</div>
+        <div className="makeListingBox"><textarea id="input-description" onChange={listingDescription}></textarea></div>
+        <div className="listingText">Type:</div>
+        <div className="makeListingBox"><textarea id="input-type" onChange={listingType}></textarea></div>
+        <div className="listingText">Price:</div>
+        <div className="makeListingBox"><textarea id="input-price" onChange={listingPrice}></textarea></div>
+        <div className="listingText">Title:</div>
+        <div className="makeListingBox"><textarea id="input-title" onChange={listingTitle}></textarea></div>
+        <input id="file-input" className="file-input" type="file" accept="image/gif, image/jpeg, image/png" name="file" onChange = {e => setImageHandler(e)}/>
+        <div><button className="makeListingSubmit" id="submit" onClick={onSubmit}>GO!</button></div>
+      </form>
+      </div>
+        </div>
+      </div>
+      <div className="footer"></div>
+      </div>
+  );
+  }
+  else{
+    return(
+      <div className="container">
+      <div className="header">
+        <div className="headerContent">
+       
+        </div>
+      </div>
+      <div className="leftsidebar">
+        <div className="leftsidebarContent">
+        <div className="login-content">
+            <form>
+              <div className="login-login">Admin login:</div>
+              <div className="login-username">Username:</div>
+              <div className="loginBox"><textarea></textarea></div>
+              <div className="login-password">Password:</div>
+              <div className="loginBox"><textarea></textarea></div>
+              <div><button className="login-submit" id="submit">Log in</button></div>
+            </form>
+          </div>
+        </div>
       </div>
       <div className="centercontent">
      {/* THIS IS AN EXAMPLE LISTING TO FORMATTING CSS */}
@@ -188,7 +236,7 @@ const createListing = () => {
         <div className="listingType">Listing type</div>
         <div className="listingPrice">$100</div>
         </div>
-        {/*
+        
          {listings.map(listing => (
         <div className="listing">
         <div className="listingTitle">{listing.title}</div>
@@ -201,7 +249,7 @@ const createListing = () => {
           <button className="submit" ></button>
         </form>
         </div>
-        ))}*/}
+        ))}
       </div>
       </div>
       <div className="rightsidebar">
@@ -217,7 +265,7 @@ const createListing = () => {
         <div className="makeListingBox"><textarea id="input-price" onChange={listingPrice}></textarea></div>
         <div className="listingText">Title:</div>
         <div className="makeListingBox"><textarea id="input-title" onChange={listingTitle}></textarea></div>
-        <input id="file-input" class="file-input" type="file" accept="image/gif, image/jpeg, image/png" onChange = {e => setImage(e)}/>
+        <input id="file-input" className="file-input" type="file" accept="image/gif, image/jpeg, image/png" onChange = {e => setImageHandler(e)}/>
         <div><button className="makeListingSubmit" id="submit" onClick={onSubmit}>GO!</button></div>
       </form>
       </div>
@@ -225,32 +273,6 @@ const createListing = () => {
       </div>
       <div className="footer"></div>
       </div>
-  );
-  }
-  else{
-    return(
-      <div>
-        {/* THIS IS EXAMPLE LISTING TO FORMAT*/}
-        <div className="listings">
-        <div className="listing">
-      <div className="listingTitle">"Listing Title"</div>
-      <div className="listingDescription">This is a filler description</div>
-      <div className="listingType">Type</div>
-      <div className="listingPrice">Price</div>
-      <div className="listingDelete" >Delete</div>
-      </div>
-          {{/* 
-        {listings.map(listing => (
-      <div className="listing">
-      <div className="listingTitle">{listing.title}</div>
-      <div className="listingDescription">{listing.description}</div>
-      <div className="listingType">{listing.type}</div>
-      <div className="listingPrice">{listing.price}</div>
-      <div className="listingDelete" >Delete</div>
-      </div>
-        ))}*/}}
-      </div>
-    </div>
 
     );
   }
