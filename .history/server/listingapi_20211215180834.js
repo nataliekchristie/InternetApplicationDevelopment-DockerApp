@@ -85,7 +85,7 @@ client.connect((err) => {
         console.log("before clipper");
         Clipper(req.file.path, function() {
             console.log("clipper 1");
-            this.crop(300, 300, 800, 800)
+            this.crop(20, 20, 800, 800)
             .resize(100, 100)
             .quality(100)
             .toFile(path.join(__dirname, 'server/images',image100), function() {

@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
     loggedin: false,
     username: '',
+    isadmin: '',
   };
   
   const loginReducer = (state = INITIAL_STATE, action) => {
@@ -9,13 +10,18 @@ const INITIAL_STATE = {
     case 'SET_LOGIN':
         return {
           ...state,
-          loggedin:action.loggedin,
+          loggedin: action.loggedin,
         }
     // set active username
     case 'SET_USERNAME':
         return {
             ...state,
-            username: username,
+            username: action.username,
+        }
+    case 'SET_USERNAME':
+        return {
+            ...state,
+            isadmin: action.isadmin,
         }
   
       default:

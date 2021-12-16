@@ -3,8 +3,8 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 const { MongoClient, ObjectId } = require('mongodb');
-// const KafkaProducer = require('./kafka/kafkaProducer.js');
-// const producer = new KafkaProducer('myProducer');
+const KafkaProducer = require('./kafka/KafkaProducer.js');
+const producer = new KafkaProducer('myProducer');
 const port = 5000;
 //const redis = require('redis');
 //const redisClient = redis.createClient({ host: process.env.REDIS_HOST || 'localhost' });
@@ -58,17 +58,13 @@ client.connect((err) => {
 
         console.log("Reached createListing api");
 
-        const filename = path.parse(req.file.path).base;
-
-        // producer.connect(() => {
-        //     console.log("Kafka connected");
-        //     producer.send(
-        //         "Processing image: "+filename
-        //     );
-        // });
+        producer.connect(() => {
+            console.log("Kafka connected");
+        })
        
         console.log(req.file)
      
+        const filename = path.parse(req.file.path).base;
 
         console.log(filename);
 
@@ -85,7 +81,7 @@ client.connect((err) => {
         console.log("before clipper");
         Clipper(req.file.path, function() {
             console.log("clipper 1");
-            this.crop(300, 300, 800, 800)
+            this.crop(20, 20, 800, 800)
             .resize(100, 100)
             .quality(100)
             .toFile(path.join(__dirname, 'server/images',image100), function() {
