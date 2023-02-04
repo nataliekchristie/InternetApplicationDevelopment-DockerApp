@@ -1,10 +1,3 @@
-# docker swarm app
-TODO: Build and run manually
-- Needs local version of redis + mongo
-- Run all services, visit port 4000
+# Docker Swarm App: Internet Application Development Final Project
 
-Build all images and push to dockerhub
-- Update build instructions to push to your own dockerhub (probably super slow)
-- quick command `npm run deploy`
-- update docker compose to pull from your images
-- Run on ec2
+A web application that allows users to post listings of products that they wish to sell, buy, etc. The goal of this project was to apply our knowledge gained from this semester including JavaScript functions, Docker, MongoDB, Kafka, and WebSocket. The project included multiple group members and was led by myself.
